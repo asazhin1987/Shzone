@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddedQnt" xml:space="preserve">
+    <value>Added Qnt</value>
+  </data>
+  <data name="AddIFCJob" xml:space="preserve">
+    <value>Создать новую выгрузку в формат IFC (.ifc)</value>
+  </data>
+  <data name="AddNavisJob" xml:space="preserve">
+    <value>Создать новую выгрузку в формат Navisworks (.nwc)</value>
+  </data>
+  <data name="AddRevitJob" xml:space="preserve">
+    <value>Создать новую выгрузку в формат Revit (.rvt)</value>
+  </data>
+  <data name="AffixesLinks" xml:space="preserve">
+    <value>Affixes links</value>
+  </data>
+  <data name="AffixLinks" xml:space="preserve">
+    <value>Affix links</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AtWork" xml:space="preserve">
+    <value>now in progress</value>
+  </data>
+  <data name="Audit" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="BasicValues" xml:space="preserve">
+    <value>Export of basic values</value>
+  </data>
+  <data name="BeginTime" xml:space="preserve">
+    <value>Start </value>
+  </data>
+  <data name="ChooseView" xml:space="preserve">
+    <value>Choose View</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="CloseWorksets" xml:space="preserve">
+    <value>Close worksets</value>
+  </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Profile name</value>
+  </data>
+  <data name="CollectionsCaption" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="ConvertIdentif" xml:space="preserve">
+    <value>Convert elements ids</value>
+  </data>
+  <data name="CurrentView" xml:space="preserve">
+    <value>Current view only</value>
+  </data>
+  <data name="CurrentViewName" xml:space="preserve">
+    <value>Current view name</value>
+  </data>
+  <data name="DefaultClient" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="DefaultVersion" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>Detach</value>
+  </data>
+  <data name="DevideFiles" xml:space="preserve">
+    <value>Divide files into levels</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Directory (full path)</value>
+  </data>
+  <data name="DirectoryCaptions" xml:space="preserve">
+    <value>Model Directories</value>
+  </data>
+  <data name="DivideWalls" xml:space="preserve">
+    <value>Divide walls and columns on a floor</value>
+  </data>
+  <data name="DoNotDetach" xml:space="preserve">
+    <value>Do not detach</value>
+  </data>
+  <data name="Elements" xml:space="preserve">
+    <value>Elements</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="ExceptionsWorksets" xml:space="preserve">
+    <value>Exceptions worksets (using "," or ";")</value>
+  </data>
+  <data name="ExceptionViews" xml:space="preserve">
+    <value>Exceptions (using "," or ";")</value>
+  </data>
+  <data name="ExportGeometryRoom" xml:space="preserve">
+    <value>Export room geometry</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Revit Models</value>
+  </data>
+  <data name="First Level" xml:space="preserve">
+    <value>First Level</value>
+  </data>
+  <data name="Fr" xml:space="preserve">
+    <value>Fr</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="IFCFileType" xml:space="preserve">
+    <value>File type</value>
+  </data>
+  <data name="IFCIncludeBoundaty" xml:space="preserve">
+    <value>CInclude boundaties</value>
+  </data>
+  <data name="Internal" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="JobCollection" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Jobs</value>
+  </data>
+  <data name="Last3MonthsCapt" xml:space="preserve">
+    <value>last 3 months</value>
+  </data>
+  <data name="Last3MonthsQnt" xml:space="preserve">
+    <value>Using (3 months)</value>
+  </data>
+  <data name="Last3MonthsUniqQnt" xml:space="preserve">
+    <value>Days of use (3 months)</value>
+  </data>
+  <data name="LastActivites" xml:space="preserve">
+    <value>Last activity</value>
+  </data>
+  <data name="LastStart" xml:space="preserve">
+    <value>Last start</value>
+  </data>
+  <data name="LastUpdate" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="LicenseQnt" xml:space="preserve">
+    <value>Total number of licenses</value>
+  </data>
+  <data name="LicenseUsedQnt" xml:space="preserve">
+    <value>Total number of users</value>
+  </data>
+  <data name="LogTime" xml:space="preserve">
+    <value>Time to add to the queue</value>
+  </data>
+  <data name="Mo" xml:space="preserve">
+    <value>Mo</value>
+  </data>
+  <data name="Models" xml:space="preserve">
+    <value>Revit models</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NavisConvertElementsProperty" xml:space="preserve">
+    <value>Convert elements parameters</value>
+  </data>
+  <data name="NavisCoordinate" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="NavisView" xml:space="preserve">
+    <value>Export view</value>
+  </data>
+  <data name="NextStart" xml:space="preserve">
+    <value>Next sart</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NotAssigned" xml:space="preserve">
+    <value>Do not assigned</value>
+  </data>
+  <data name="NowCapt" xml:space="preserve">
+    <value>now</value>
+  </data>
+  <data name="OpenParams" xml:space="preserve">
+    <value>Open params</value>
+  </data>
+  <data name="OpenWorksets" xml:space="preserve">
+    <value>Open worksets</value>
+  </data>
+  <data name="OutOf" xml:space="preserve">
+    <value>out of</value>
+  </data>
+  <data name="ParamsExport" xml:space="preserve">
+    <value>Export options</value>
+  </data>
+  <data name="ParamsSetting" xml:space="preserve">
+    <value>Params &amp; Setting</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Export path</value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value>Purge unused</value>
+  </data>
+  <data name="RemovedQnt" xml:space="preserve">
+    <value>Removed Qnt</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="RevitServerName" xml:space="preserve">
+    <value>Revit Server name</value>
+  </data>
+  <data name="Sa" xml:space="preserve">
+    <value>Sa</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="Second Level" xml:space="preserve">
+    <value>Second Level</value>
+  </data>
+  <data name="ServerCaption" xml:space="preserve">
+    <value>Revit Servers</value>
+  </data>
+  <data name="Shared" xml:space="preserve">
+    <value>Shared</value>
+  </data>
+  <data name="Su" xml:space="preserve">
+    <value>Su</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Successfully</value>
+  </data>
+  <data name="Th" xml:space="preserve">
+    <value>Th</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TransformConstructionElements" xml:space="preserve">
+    <value>Transform construction elements</value>
+  </data>
+  <data name="TransformElementsProperty" xml:space="preserve">
+    <value>Transform elements properties</value>
+  </data>
+  <data name="TransformLinkedFiles" xml:space="preserve">
+    <value>Convert linked files</value>
+  </data>
+  <data name="TransformRoom" xml:space="preserve">
+    <value>Convert rooms as attribute</value>
+  </data>
+  <data name="TransformURL" xml:space="preserve">
+    <value>Transform URL</value>
+  </data>
+  <data name="TruncateLinks" xml:space="preserve">
+    <value>Truncate Links</value>
+  </data>
+  <data name="TruncateView" xml:space="preserve">
+    <value>Truncate Views</value>
+  </data>
+  <data name="Tu" xml:space="preserve">
+    <value>Tu</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Revit version</value>
+  </data>
+  <data name="ViewName" xml:space="preserve">
+    <value>View Name</value>
+  </data>
+  <data name="We" xml:space="preserve">
+    <value>We</value>
+  </data>
+  <data name="WeekDays" xml:space="preserve">
+    <value>Week days</value>
+  </data>
+  <data name="WholeProject" xml:space="preserve">
+    <value>Whole Project</value>
+  </data>
+  <data name="Worksets" xml:space="preserve">
+    <value>Worksets</value>
+  </data>
+</root>

@@ -1,0 +1,27 @@
+﻿@using SharedZone.Web.Models
+
+@model ResultActionViewModel
+
+<script>
+    $("document").ready(function () {
+        @Model.ActionResultFunction;
+        hideModalRight();
+    });
+ </script>
+
+<div class="d-flex flex-column align-self-stretch align-content-center bg-white">
+    <br />
+    <h2 class="text-secondary text-center">
+        @Model.Message
+    </h2>
+    <hr />
+    <button type="submit"
+            data-dismiss="modal" class="btn btn-secondary rounded-0">
+        @Resources.Controls.Continue
+    </button>
+    <br />
+</div>
+
+
+
+

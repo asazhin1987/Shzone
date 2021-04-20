@@ -1,0 +1,73 @@
+﻿@using SharedZone.Web.Models;
+
+@model ServersViewModel
+
+@{
+   
+}
+
+
+<script>
+    $(function () {
+        $('.addcoll').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: '@Model.CreateAction',
+                beforeSend: function () {
+                    $("#locloading").show();
+                    ShowModalRight();
+                },
+                success: function (data) {
+                    $('#rightdialog').html(data);
+                    $("#locloading").hide();
+                }
+            })
+        });
+    });
+
+</script>
+
+<script>
+    $("document").ready(function () {
+        UpdateResult();
+    });
+</script>
+
+<!--FORMS SECTION-->
+<section class=" p-0">
+
+    @using (Ajax.BeginForm(Model.UpdateAction, null
+              , new AjaxOptions() { UpdateTargetId = "result", HttpMethod = "Get", LoadingElementId = "loading" }
+              , new { Id = $"UpdateForm" }))
+    {<button type="submit" class="d-none"></button>}
+</section>
+
+
+<div class="col d-flex flex-column  p-0 ">
+    <div class="position-sticky bg-light p-0 d-flex flex-column" style="top:0;z-index:99;">
+        <div class="d-flex flex-row bg-white p-2" style="height:64px;">
+            <div class="d-none d-xl-block col-auto  text-light-green p-0 align-self-center mr-xl-3" style="font-size:20pt;">
+                @Html.DisplayNameFor(m => m.Caption)
+            </div>
+            <button class="mt-1 btn light-green-btn align-self-center d-none d-xl-block d-lg-block pl-3 pr-3 addcoll">
+                @Resources.Controls.Add
+            </button>
+            <button class="mt-1 btn light-green-btn align-self-center d-xl-none d-lg-none d-block addcoll">
+                +
+            </button>
+            <button class="mt-1 ml-1 btn light-green-btn align-self-center" type="submit" form="UpdateForm">
+                &#x21bb;
+            </button>
+            <div class="d-none d-xl-block col"></div>
+            <input class="col col-xl-3 mt-1 search form-control border-0  rounded-0 align-self-center border-bottom" type="search"
+                   placeholder="@Resources.Controls.Search" name="Search" form="UpdateForm" />
+
+        </div>
+        
+
+    </div>
+    <div class="col p-0 d-flex flex-column " id="result">
+        
+    </div>
+
+</div>

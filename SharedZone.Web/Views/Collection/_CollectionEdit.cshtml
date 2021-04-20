@@ -1,0 +1,31 @@
+﻿@using SharedZone.DTO;
+@using SharedZone.Web.Models;
+
+@model CollectionViewModel
+
+
+<script>
+
+</script>
+
+
+<div class="position-sticky bg-white p-0" style="top:0;z-index:99;">
+    <div class="d-flex flex-row p-2">
+        <button data-target="#carouselSetting" data-slide-to="0" class="btn col-4 bnt-tab-light rounded-0" style="font-size:10pt!important;">@Resources.Setting.ParamsSetting</button>
+        <button data-target="#carouselSetting" data-slide-to="1" class="btn col-4 bnt-tab-light rounded-0" style="font-size:10pt!important;">@Resources.Setting.Files</button>
+        <button data-target="#carouselSetting" data-slide-to="2" class="btn col-4 bnt-tab-light rounded-0" style="font-size:10pt!important;">@Resources.Setting.Jobs</button>
+    </div>
+</div>
+<div class="col carousel slide p-2 bg-white" id="carouselSetting">
+    <div class="carousel-inner">
+        <div class="carousel-item active overflow-hidden overflow-y-auto my-hight" id="paramscontainer">
+            @Html.Partial("_SettingParams", Model.Params)
+        </div>
+        <div class="carousel-item  overflow-hidden overflow-y-auto  my-hight" id="filescontainer">
+            @Html.Partial("_SettingFiles", Model.Files)
+        </div>
+        <div class="carousel-item  overflow-hidden overflow-y-auto  my-hight" id="jobscontainer">
+            @Html.Partial("_SettingJobs", Model.Jobs)
+        </div>
+    </div>
+</div>

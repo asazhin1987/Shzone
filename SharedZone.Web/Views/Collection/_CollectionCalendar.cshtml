@@ -1,0 +1,135 @@
+﻿@using SharedZone.Web.Models;
+@using SharedZone.Web.Util;
+
+@model CollectionCalendarViewModel
+
+@{
+    int minuteStepHeight = 30;
+    int hourHeight = minuteStepHeight * Model.Minutes.Count();
+    double minuteHeght = (double)hourHeight / 60;
+}
+
+
+<style>
+    .c-cell {
+        height: 25px !important;
+        margin-left: 1px;
+        margin-right: 1px;
+        margin-bottom: 1px;
+        cursor: pointer;
+        transition: border-color 0.3s ease-in-out, all 0.3s ease-in-out;
+    }
+
+        .c-cell:hover {
+            background-color: #2E4154 !important;
+            color: white !important;
+        }
+  
+
+</style>
+
+<script>
+    $(function () {
+        $('.editcoll').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: 'EditCollection',
+                data: 'Id=' + e.target.id,
+                beforeSend: function () {
+                    $("#locloading").show();
+                    ShowModalRight();
+                },
+                success: function (data) {
+                    $('#rightdialog').html(data);
+                    $("#locloading").hide();
+                }
+            })
+        });
+    });
+
+</script>
+
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+
+
+
+<div class="d-flex flex-column">
+    <!--HEADER-->
+    <span class="d-flex flex-row p-0 text-secondary center  t-header" style="font-size:10pt;border-bottom:solid 2px #2E4154; height:60px; ">
+        <span class="fix-w-80 border-right">
+
+        </span>
+        @foreach (var day in Model.WeekDays.AsParallel().AsOrdered())
+        {
+            <span class="col border-right text-center p-0 @(day.IsToday ? "text-light-green" : "")">
+                <span class="d-none d-sm-none d-md-none d-lg-none d-xl-flex flex-column  ">
+                    <span class="col" style="font-size:18pt;">@day.Date.Day</span>
+                    <span class="col"> @day.LongName </span>
+                </span>
+                <span class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-none flex-column p-0">
+                    <span class="col" style="font-size:14pt;">@day.Date.Day</span>
+                    <span class="col"> @day.ShortName </span>
+                </span>
+            </span>
+        }
+    </span>
+    @foreach (var hour in @Model.Hours.AsParallel().AsOrdered())
+    {
+        <span class="d-flex flex-row border-bottom" style="height:@(hourHeight + 4)px!important;">
+            <span class="fix-w-80 border-right font-weight-bold text-dark-green p-1 bg-white " style="font-size:14pt;">
+                @hour.Name
+            </span>
+            @foreach (var day in Model.WeekDays.AsParallel().AsOrdered())
+            {
+                var colls = Model.Collections.Where(x => x.HourId == hour.Id && x.WeekDays.Contains(day.Id));
+                <span class="col p-0 border-right position-relative ">
+                    @if (day.IsToday && hour.IsCurrent)
+                    {
+                        <span class="position-absolute w-100 bg-light-green"
+                              style="z-index:99; min-height:4px!important;top:@(minuteHeght * DateTime.Now.Minute)px;">
+                        </span>
+                        <span class="position-absolute  bg-light-green rounded-circle fix-w-16 fix-h-16"
+                              style="z-index:99; left:-8px;top:@(minuteHeght * DateTime.Now.Minute -6)px"></span>
+                    }
+                    @if (colls.Count() > 0)
+                    {
+                        foreach (var min in Model.Minutes.AsParallel().AsOrdered())
+                        {
+                            var _colls = colls.Where(x => x.MinuteId == min.Id);
+                            <span class="col d-flex flex-row p-0">
+                                @if (_colls.Count() > 0)
+                                {
+                                    foreach (var col in colls)
+                                    {
+                                        <span class="editcoll c-cell rounded w-100 overflow-hidden text-break pl-1 pr-1  @HelperModule.GetCollectionBgClass(col, day, hour)"
+                                              id="@col.Id" style="font-size:10pt!important;"
+                                              data-html="true" 
+                                              data-placement="right" 
+                                              data-container="#result" 
+                                              data-toggle="popover"
+                                              data-trigger="hover"
+                                              data-content= "@HelperModule.GetCollectionToolTip(col)"
+                                              >
+                                            @col.Name
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="c-cell">
+                                    </span>
+                                }
+                            </span>
+                        }
+                    }
+                </span>
+            }
+        </span>
+    }
+
+</div>

@@ -1,0 +1,47 @@
+﻿@using SharedZone.Web.Models;
+
+@model MenuViewModel
+
+
+
+<!--FORMS-->
+<section class="p-0 d-none">
+    @using (Ajax.BeginForm(Model.EditActionName, Model.ControllerName,
+    new { Id = Model.Id }
+         , new AjaxOptions() { UpdateTargetId = "rightdialog", HttpMethod = "Get", LoadingElementId = "loading" }
+         , new { Id = "EditForm", Name = "EditForm" })) { }
+
+    @using (Ajax.BeginForm(Model.CloneActionName, Model.ControllerName,
+   new { Id = Model.Id }
+        , new AjaxOptions() { UpdateTargetId = "rightdialog", HttpMethod = "Get", LoadingElementId = "loading" }
+        , new { Id = "CloneForm", Name = "CloneForm" })) { }
+
+
+    @using (Ajax.BeginForm(Model.RemoveActionName, Model.ControllerName, new { Id = Model.Id }
+                  , new AjaxOptions()
+                  {
+                      UpdateTargetId = "smalldialog",
+                      HttpMethod = "Post",
+                      LoadingElementId = "loading",
+                      Confirm = "Remove ?",
+                      OnComplete = "ShowModalSmall();UpdateResult();"
+                  }
+                  , new { Id = "DeleteForm", Name = "DeleteForm" })) { }
+</section>
+
+
+<button class="dropdown-item" data-toggle="modal" data-target="#rightModal"
+        type="submit" form="EditForm">
+    @Resources.Controls.Edit
+</button>
+<span class="border-bottom w-100" style="display:inline-block; height:1px;"></span>
+<button class="dropdown-item" data-toggle="modal" data-target="#rightModal"
+        type="submit" form="CloneForm">
+    @Resources.Controls.Clone
+</button>
+
+<button class="dropdown-item text-danger"
+        type="submit" form="DeleteForm">
+    @Resources.Controls.Delete
+</button>
+

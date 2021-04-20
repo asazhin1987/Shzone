@@ -1,0 +1,20 @@
+﻿@using SharedZone.Web.Models;
+
+@model PageMenuViewModel
+
+@{
+    MenuItem activeItem = (MenuItem)TempData["ActiveItem"];
+}
+
+@foreach (var item in Model.Items)
+{
+    bool isactive = item.MenuItem == activeItem;
+
+    <a href="~/@item.ControllerName/@item.ActionName"
+       class="text-decoration-none d-flex flex-row sidebarrowcontainer @(isactive ? "sidebaractive" : "")" style="height:64px;">
+        <span class="sidebarcaption sidecb" style="width:4px;margin-right:4px;"></span>
+        <img src="~/Content/Images/@item.Image" class=" align-self-center sidebaritemimage" />
+        <span class="text-light align-self-center pl-2 sidebarcaption">@item.Title</span>
+    </a>
+
+}

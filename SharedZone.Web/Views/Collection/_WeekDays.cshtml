@@ -1,0 +1,11 @@
+﻿@using SharedZone.Web.Models;
+
+@model IEnumerable<CheckBoxViewModel>
+
+
+    <div class="d-flex flex-row p-0 justify-content-between">
+        @foreach (var item in Model)
+        {
+            @_Controls.TextOnlyCheckBox(item)
+        }
+    </div>

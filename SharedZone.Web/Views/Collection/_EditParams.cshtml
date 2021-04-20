@@ -1,0 +1,119 @@
+﻿@using SharedZone.Web.Models;
+
+@model EditCollectionViewModel
+
+
+@{
+    string labelclass = "control-label col-md-8  text-primary-green pl-1 pr-1 text-uppercase font-weight-bold";
+    string editorclass = "col-md-12 pl-1 pr-1";
+}
+
+
+<style>
+    #SubmitForm {
+    }
+</style>
+
+@using (Ajax.BeginForm("SettingParams", new { Id = Model.Id }
+        , new AjaxOptions() { UpdateTargetId = "paramscontainer", HttpMethod = "Get", LoadingElementId = "locloading" }
+        , new { Id = "CancelForm" })) { }
+
+
+@using (Ajax.BeginForm("EditParams", null
+        , new AjaxOptions() { UpdateTargetId = "paramscontainer", HttpMethod = "Post", LoadingElementId = "locloading", OnSuccess = "UpdateResult();" }
+        , new { Id = "SubmitForm" }))
+{
+    @Html.HiddenFor(x => x.Id)
+
+    <div class="form-group ">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = labelclass })
+        <div class="@editorclass">
+            @Html.TextAreaFor(model => model.Name, rows: 2, columns: 10, htmlAttributes: new { @class = "form-control bg-light p-1" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group ">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = labelclass })
+        <div class="@editorclass">
+            @Html.TextAreaFor(model => model.Description, rows: 4, columns: 10, htmlAttributes: new { @class = "form-control bg-light p-1" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <hr />
+
+    <label class="@labelclass"> @Resources.Setting.Schedule</label>
+    <label class="@labelclass">@Resources.Setting.Time</label>
+    <div class="d-flex flex-row p-0 mb-2">
+        <div class="col-6 p-0 mr-1">
+            @Html.Action("Hours", new { selected = Model.HourId })
+        </div>
+        <div class="col-6 p-0 ml-1">
+            @Html.Action("Minutes", new { selected = Model.MinuteId })
+        </div>
+    </div>
+    <label class="@labelclass">@Resources.Setting.WeekDays</label>
+    @Html.Action("WeekDays", new { selected = Model.WeekDays })
+    <hr />
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+      {
+          DisplayText = Html.DisplayNameFor(x => x.Detach).ToString(),
+          Id = "Detach",
+          Value = 1,
+          Name = "Detach",
+          Checked = Model.Detach
+      })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.Audit).ToString(),
+        Id = "Audit",
+        Value = 1,
+        Name = "Audit",
+        Checked = Model.Audit
+    })
+
+    <label class="@labelclass"> @Resources.Setting.Worksets</label>
+
+    @_Controls.CustomRadio(new RadioViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.OpenWorksets).ToString(),
+        Value = 1,
+        Name = "Worksets",
+        Id = "OpenWorksets",
+        Checked = Model.OpenWorksets
+    })
+    @_Controls.CustomRadio(new RadioViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.CloseWorksets).ToString(),
+        Value = 0,
+        Name = "Worksets",
+        Id = "CloseWorksets",
+        Checked = Model.CloseWorksets
+    })
+
+    <div class="form-group  ">
+        @Html.LabelFor(model => model.ExceptionWorksets, htmlAttributes: new { @class = labelclass })
+        <div class="@editorclass">
+            @Html.TextAreaFor(model => model.ExceptionWorksets, rows: 2, columns: 10, htmlAttributes: new { @class = "form-control bg-light p-1" })
+            @Html.ValidationMessageFor(model => model.ExceptionWorksets, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <hr />
+    <label class="@labelclass"> @Resources.Setting.Version</label>
+    @Html.Action("RevitVersions", new { selected = Model.RevitVersionId })
+
+    <hr />
+    <label class="@labelclass"> @Resources.Setting.Client</label>
+    @Html.Action("Clients", new { selected = Model.ClientId })
+
+
+}
+
+<div class="col d-flex flex-row bg-white justify-content-end mt-2 ">
+    <button type="submit" class="btn light-green-btn min-w-120 " form="CancelForm">@Resources.Controls.Cancel</button>
+    <button type="submit" class="btn dark-green-btn ml-2 min-w-120 " form="SubmitForm">@Resources.Controls.Save</button>
+</div>

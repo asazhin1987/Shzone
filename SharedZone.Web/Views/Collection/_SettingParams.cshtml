@@ -1,0 +1,74 @@
+﻿@using SharedZone.Web.Models;
+@using SharedZone.Web.Util;
+
+@model ParamsCollectionViewModel
+
+<script>
+    $(function () {
+        $('#editparam').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: 'EditParams',
+                data: 'Id=' + @Model.Collection.Id,
+                beforeSend: function () {
+                    $("#locloading").show();
+                },
+                success: function (data) {
+                    $('#paramscontainer').html(data);
+                      $("#locloading").hide();
+                }
+            })
+        });
+    });
+
+</script>
+
+<button id="editparam" class="btn btn-sm light-green-btn ">
+    @Resources.Controls.Edit
+</button>
+
+<p class="border-bottom border-dark-green pb-2"></p>
+
+<p class="text-light-green m-0">@Resources.Setting.Id: @Html.DisplayFor(x => x.Collection.Id)</p>
+<p class="m-0">@Html.DisplayFor(x => x.Collection.Name)</p>
+<p class="text-light-green m-0">@Resources.Setting.Client:</p>
+<p class="m-0 border-bottom border-dark-green pb-2 ">@Html.DisplayFor(x => x.Collection.ClientName)</p>
+
+<p class="text-light-green m-0">@Resources.Setting.Schedule:</p>
+@if (Model.Collection.WeekDayDTOs.Count() > 0)
+{
+    <p class="m-0">@HelperModule.GetWdStrings(Model.Collection.WeekDayDTOs)</p>
+    <h1 class="border-bottom border-dark-green pb-2">@(Model.Collection.StartTime.ToString(@"hh\:mm"))</h1>
+}
+else
+{
+    <p class="border-bottom border-dark-green pb-2 m-0">@Resources.Setting.NotAssigned</p>
+}
+
+<p class="text-light-green m-0">@Resources.Setting.OpenParams:</p>
+@if (Model.Collection.Detach)
+{
+    <p class="m-0">@Resources.Setting.Detach</p>
+}
+else
+{
+    <p class="m-0">@Resources.Setting.DoNotDetach</p>
+}
+@if (Model.Collection.Worksets)
+{
+    <p class="m-0">@Resources.Setting.OpenWorksets</p>
+}
+else
+{
+    <p class="m-0">@Resources.Setting.CloseWorksets</p>
+}
+
+
+@if (Model.Collection.Audit)
+{
+    <p class="m-0">@Resources.Setting.Audit</p>
+}
+
+
+
+

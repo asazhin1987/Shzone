@@ -1,0 +1,307 @@
+﻿
+/**/
+.t-header {
+    position: sticky;
+    top: 60px;
+    z-index: 10;
+    background-color:white!important;
+}
+
+.t-corner, .t-left {
+    width: 400px;
+    position: sticky !important;
+    left: 0;
+}
+
+.t-corner {
+    top: 60px;
+    z-index: 11;
+}
+
+.t-left {
+    z-index: 9 !important;
+}
+
+.t-row:hover {
+    background-color: #f8f9fa !important;
+}
+
+.t-row {
+    min-height: 40px;
+}
+
+
+.min-w-100 {
+    min-width: 100px !important;
+}
+
+.min-w-160 {
+    min-width: 160px !important;
+}
+
+.min-w-200 {
+    min-width: 200px !important;
+}
+
+.max-w-16, .fix-w-16 {
+    max-width: 16px !important;
+}
+
+.min-w-16, .fix-w-16 {
+    min-width: 16px !important;
+}
+
+.max-h-16, .fix-h-16 {
+    max-height: 16px !important;
+}
+
+.min-h-16, .fix-h-16 {
+    min-height: 16px !important;
+}
+
+
+.max-w-32, .fix-w-32 {
+    max-width: 32px !important;
+}
+
+.min-w-32, .fix-w-32 {
+    min-width: 32px !important;
+}
+
+.max-w-40, .fix-w-40 {
+    max-width: 40px !important;
+}
+
+.min-w-40, .fix-w-40 {
+    min-width: 40px !important;
+}
+
+.w-40{
+    width: 40px !important;
+}
+
+.max-w-48, .fix-w-48 {
+    max-width: 48px !important;
+}
+
+.min-w-48, .fix-w-48 {
+    min-width: 48px !important;
+}
+
+.max-h-40, .fix-h-40 {
+    max-height: 40px !important;
+}
+
+.min-h-40, .fix-h-40 {
+    min-height: 40px !important;
+}
+
+.h-40{
+    height: 40px !important;
+}
+
+.max-w-60, .fix-w-60 {
+    max-width: 60px !important;
+}
+
+.min-w-60, .fix-w-60 {
+    min-width: 60px !important;
+}
+
+.max-h-60, .fix-h-60 {
+    max-height: 60px !important;
+}
+
+.min-h-60, .fix-h-60 {
+    min-height: 60px !important;
+}
+
+.max-w-80, .fix-w-80 {
+    max-width: 80px !important;
+}
+
+.min-w-80, .fix-w-80 {
+    min-width: 80px !important;
+}
+
+
+.max-w-100, .fix-w-100 {
+    max-width: 100px !important;
+}
+
+.min-w-100, .fix-w-100 {
+    min-width: 100px !important;
+}
+
+.max-w-120, .fix-w-120 {
+    max-width: 120px !important;
+}
+
+.min-w-120, .fix-w-120 {
+    min-width: 120px !important;
+}
+
+.max-w-160, .fix-w-160 {
+    max-width: 160px !important;
+}
+
+.min-w-160, .fix-w-160 {
+    min-width: 160px !important;
+}
+
+.max-w-200, .fix-w-200 {
+    max-width: 200px !important;
+}
+
+.min-w-200, .fix-w-200 {
+    min-width: 200px !important;
+}
+
+.max-w-280, .fix-w-280 {
+    max-width: 280px !important;
+}
+
+.min-w-280, .fix-w-280 {
+    min-width: 280px !important;
+}
+
+.max-w-320, .fix-w-320 {
+    max-width: 320px !important;
+}
+
+
+.min-w-320, .fix-w-320 {
+    min-width: 320px !important;
+}
+
+.max-w-340, .fix-w-340 {
+    max-width: 340px !important;
+}
+
+
+.min-w-340, .fix-w-340 {
+    min-width: 340px !important;
+}
+
+.max-w-360, .fix-w-360 {
+    max-width: 360px !important;
+}
+
+
+.min-w-360, .fix-w-360 {
+    min-width: 360px !important;
+}
+
+.max-w-380, .fix-w-380 {
+    max-width: 380px !important;
+}
+
+
+.min-w-380, .fix-w-380 {
+    min-width: 380px !important;
+}
+
+.max-w-400, .fix-w-400 {
+    max-width: 400px !important;
+}
+
+
+.min-w-400, .fix-w-400 {
+    min-width: 400px !important;
+}
+
+
+.max-w-480, .fix-w-480 {
+    max-width: 480px !important;
+}
+
+.min-w-480, .fix-w-480 {
+    min-width: 480px !important;
+}
+
+.min-w-500, .fix-w-500 {
+    min-width: 500px !important;
+}
+
+.max-w-500, .fix-w-500 {
+    max-width: 500px !important;
+}
+
+.min-w-520, .fix-w-520 {
+    min-width: 520px !important;
+}
+
+.max-w-520, .fix-w-520 {
+    max-width: 520px !important;
+}
+
+.min-w-580, .fix-w-580 {
+    min-width: 580px !important;
+}
+
+.max-w-580, .fix-w-580 {
+    max-width: 580px !important;
+}
+
+.min-w-740, .fix-w-740 {
+    min-width: 740px !important;
+}
+
+.max-w-740, .fix-w-740 {
+    max-width: 740px !important;
+}
+
+.min-w-1100, .fix-w-1100 {
+    min-width: 1100px !important;
+}
+
+.max-w-1100, .fix-w-1100 {
+    max-width: 1100px !important;
+}
+
+.min-w-1140, .fix-w-1140 {
+    min-width: 1140px !important;
+}
+
+.max-w-1140, .fix-w-1140 {
+    max-width: 1140px !important;
+}
+
+.min-h-40 {
+    min-height: 40px;
+}
+
+.min-h-50 {
+    min-height: 50px;
+}
+
+.max-h-380 {
+    max-height: 380px !important;
+}
+
+
+.max-h-520 {
+    max-height: 520px !important;
+}
+
+
+
+/*.border-dark-green {
+    border: solid 1px #2E4154 !important;
+}
+
+.border-left-dark-green {
+    border-left: solid 1px #2E4154 !important;
+}
+
+.border-right-dark-green {
+    border-right: solid 1px #2E4154 !important;
+}
+
+.border-top-dark-green {
+    border-top: solid 1px #2E4154 !important;
+}
+
+.border-bottom-dark-green {
+    border-bottom: solid 1px #2E4154 !important;
+}*/

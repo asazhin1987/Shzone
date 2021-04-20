@@ -1,0 +1,77 @@
+﻿<Window x:Class="SharedZone.Client.Xaml.SettingsForm"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:my="clr-namespace:WpfStyles;assembly=WpfStyles"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="400"
+			Width="600" Height="700"
+			Style="{DynamicResource BIMAcadStyle}" ResizeMode="CanResize">
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/WpfStyles;component/Core.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<Style x:Key="{x:Type Button}" TargetType="{x:Type Button}" BasedOn="{StaticResource OkButton}" />
+			<Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource GrayGeneralBlock}">
+				<Setter Property="HorizontalAlignment" Value="Left"/>
+				<Setter Property="VerticalAlignment" Value="Center"/>
+			</Style>
+			<Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxA}">
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+			</Style>
+		</ResourceDictionary>
+	</Window.Resources>
+    <Grid Margin="8">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="25"></RowDefinition>
+			<RowDefinition Height="40"></RowDefinition>
+			<RowDefinition Height="auto"></RowDefinition>
+			<RowDefinition Height="48"></RowDefinition>
+			<RowDefinition Height="0"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Row="0">Подключение к сети</TextBlock>
+		<TextBox Grid.Row="1"  Text="{Binding Host}" Height="40" VerticalAlignment="Top"></TextBox>
+		<Grid  Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<TextBlock Grid.Column="0"  Text="{Binding ConnectMessage}" VerticalAlignment="Top" TextWrapping="Wrap"></TextBlock>
+			<Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand" 
+					Height="20"
+				   Command="{Binding SeveHostCommand}">сохранить</Button>
+		</Grid>
+		<TextBlock Grid.Row="3">ПРОФИЛИ</TextBlock>
+		<!--<TextBlock Text="{Binding TestMessage}" Grid.Row="4" Width="200" Height="40" Background="White" ></TextBlock>-->
+		<DataGrid Grid.Row="5" AutoGenerateColumns="False" ItemsSource="{Binding Profiles, UpdateSourceTrigger=PropertyChanged }"
+				  SelectedItem="{Binding ActiveProfile}"
+				  Name="Table"  IsReadOnly="True"  Style="{StaticResource DataGridA}">
+			<DataGrid.Columns>
+				<!--<DataGridTextColumn Binding="{Binding Name}" Header="Объект" ></DataGridTextColumn>-->
+				<DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Width="*"  CanUserResize="False"  CellStyle="{StaticResource CellB}" >
+					<DataGridTextColumn.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="Наименование" VerticalAlignment="Center"/>
+						</DataTemplate>
+					</DataGridTextColumn.HeaderTemplate>
+				</DataGridTextColumn>
+				<DataGridTemplateColumn IsReadOnly="True" Width="60" CanUserResize="False"  CellStyle="{StaticResource CellB}" >
+					<DataGridTemplateColumn.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="" VerticalAlignment="Center"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.HeaderTemplate>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid},Mode=FindAncestor}}" Width="40"></Button>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+			
+		</DataGrid>
+	</Grid>
+</Window>

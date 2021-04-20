@@ -1,0 +1,14 @@
+﻿@using SharedZone.Web.Models;
+
+@model DropDownsViewModel
+
+
+
+<select class="form-control bg-light p-1" name="@Model.Name" >
+    @foreach (var item in Model.Items)
+    {
+        <option value="@item.Value" @(item.Selected ? "selected='selected'" : string.Empty)>
+            @item.DisplayText
+        </option>
+    }
+</select>

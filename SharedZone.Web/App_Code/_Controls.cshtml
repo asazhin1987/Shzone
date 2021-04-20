@@ -1,0 +1,76 @@
+﻿@using SharedZone.Web.Models;
+@using SharedZone.Web.Application;
+
+@helper SaveCancelButtons(string formname = "SubmitForm")
+{
+    <div class="col d-flex flex-row justify-content-end ">
+        <button type="button" class="btn light-green-btn min-w-120 " data-dismiss="modal">@Resources.Controls.Cancel</button>
+        <button type="submit" class="btn dark-green-btn ml-2 min-w-120  " form="@formname">@Resources.Controls.Save</button>
+    </div>
+}
+
+
+@helper CustomRadio(RadioViewModel model)
+{
+    <div class="custom-control custom-radio">
+        <input type="radio" class="custom-control-input"
+               id="@model.Id" name="@model.Name" onchange="@model.OnChangeAction" value="@model.Value"
+               @(model.FormName == null ? "" : $"form='{model.FormName}'")
+               @(model.Checked ? "checked='checked'" : string.Empty)>
+        <label class="custom-control-label" for="@model.Id">@model.DisplayText</label>
+    </div>
+}
+
+
+@helper CustomCheckBox(CheckBoxViewModel model)
+{
+
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input"
+               id="@model.Id" name="@model.Name" onchange="@model.OnChangeAction" value="@model.Value"
+               @(model.FormName == null ? "" : $"form='{model.FormName}'")
+               @(model.Checked ? "checked='checked'" : string.Empty)>
+        <label class="custom-control-label" for="@model.Id">@model.DisplayText</label>
+    </div>
+}
+
+@helper TextOnlyCheckBox(CheckBoxViewModel model)
+{
+    <span class="">
+        <input type="checkbox" class="d-none text-checkbox"
+               id="@model.Id" name="@model.Name" onchange="@model.OnChangeAction" value="@model.Value"
+               @(model.FormName == null ? "" : $"form='{model.FormName}'")
+               @(model.Checked ? "checked='checked'" : string.Empty)>
+        <label class="fix-h-40 fix-w-40 rounded border border-dark-green d-flex align-items-center justify-content-center " for="@model.Id">
+            @model.DisplayText
+        </label>
+    </span>
+
+}
+
+@helper BoolCustomCheckBox(CheckBoxViewModel model)
+{
+
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input"
+               id="@model.Id" name="@model.Name" onchange="@model.OnChangeAction" value="true"
+               @(model.FormName == null ? "" : $"form='{model.FormName}'")
+               @(model.Checked ? "checked='checked'" : string.Empty)>
+
+        <label class="custom-control-label " for="@model.Id">@model.DisplayText</label>
+    </div>
+}
+
+@helper CustomCheckBox(int Id, bool _checked, string name = "SI",
+    string formname = "UpdateForm", string onchange = "UpdateResult()", string text = "", string cssclass = "")
+{
+
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input @cssclass"
+               id="@($"{name}{Id}")" name="@name" onchange="@onchange" value="@Id"
+               form="@formname"
+               @(_checked ? "checked='checked'" : string.Empty)>
+        <label class="custom-control-label" for="@($"{name}{Id}")">@text</label>
+    </div>
+}
+

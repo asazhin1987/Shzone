@@ -1,0 +1,57 @@
+﻿@using SharedZone.Web.Models;
+
+@model RevitJobViewModel
+
+@{
+    string labelclass = "control-label col-md-8  text-primary-green pl-1 pr-1 text-uppercase font-weight-bold";
+    string editorclass = "col-md-12 pl-1 pr-1";
+}
+
+
+
+    <div>
+        @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+        {
+            DisplayText = Html.DisplayNameFor(x => x.TruncateView).ToString(),
+            Id = "TruncateView",
+            Name = "TruncateView",
+            Checked = Model.TruncateView,
+            OnChangeAction = "CollapseToggte(this, 'excview');"
+        })
+        <div class="form-group collapse @(Model.TruncateView ? "show" : "")" id="excview">
+            @Html.LabelFor(model => model.ExceptionViews, htmlAttributes: new { @class = labelclass })
+            <div class="@editorclass">
+                @Html.TextAreaFor(model => model.ExceptionViews, rows: 2, columns: 10, htmlAttributes: new { @class = "form-control  bg-light p-1" })
+                @Html.ValidationMessageFor(model => model.ExceptionViews, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+        {
+            DisplayText = Html.DisplayNameFor(x => x.AffixLinks).ToString(),
+            Id = "AffixLinks",
+            Name = "AffixLinks",
+            Checked = Model.AffixLinks, 
+            OnChangeAction = "CollapseToggte(this, 'links');"
+        })
+        <div class="form-group collapse @(Model.TruncateView ? "show" : "")" id="links">
+            @Html.LabelFor(model => model.AffixesLinks, htmlAttributes: new { @class = labelclass })
+            <div class="@editorclass">
+                @Html.TextAreaFor(model => model.AffixesLinks, rows: 2, columns: 10, htmlAttributes: new { @class = "form-control  bg-light p-1" })
+                @Html.ValidationMessageFor(model => model.AffixesLinks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+       {
+           DisplayText = Html.DisplayNameFor(x => x.TruncateLinks).ToString(),
+           Id = "TruncateLinks",
+           Name = "TruncateLinks",
+           Checked = Model.TruncateLinks
+       })
+        @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+       {
+           DisplayText = Html.DisplayNameFor(x => x.Purge).ToString(),
+           Id = "Purge",
+           Name = "Purge",
+           Checked = Model.Purge
+       })
+    </div>

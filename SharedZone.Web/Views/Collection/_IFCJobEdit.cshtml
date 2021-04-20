@@ -1,0 +1,47 @@
+﻿@using SharedZone.Web.Models;
+
+@model IFCJobViewModel
+
+@{
+    string labelclass = "control-label col-md-8  text-primary-green pl-1 pr-1 text-uppercase font-weight-bold";
+
+}
+
+<div class="col border-bottom border-dark-green mb-2 mt-2"></div>
+<label class="@labelclass">@Resources.Setting.ParamsExport</label>
+@_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+{
+    DisplayText = Html.DisplayNameFor(x => x.CurrentView).ToString(),
+    Id = "CurrentView",
+    Name = "CurrentView",
+    Checked = Model.CurrentView,
+    OnChangeAction = "CollapseToggte(this, 'currview');"
+})
+
+<div class="mb-2 collapse @(Model.CurrentView ? "show" : "")" id="currview">
+    @Html.EditorFor(model => model.CurrentViewName,
+                      new { htmlAttributes = new { @class = "form-control bg-light p-1 ", @placeholder=$"{@Html.DisplayNameFor(x => x.CurrentViewName)}" } })
+    @Html.ValidationMessageFor(model => model.CurrentViewName, "", new { @class = "text-danger" })
+</div>
+
+@_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+{
+    DisplayText = Html.DisplayNameFor(x => x.DivideWalls).ToString(),
+    Id = "DivideWalls",
+    Name = "DivideWalls",
+    Checked = Model.DivideWalls
+})
+@_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+{
+   DisplayText = Html.DisplayNameFor(x => x.BasicValues).ToString(),
+   Id = "BasicValues",
+   Name = "BasicValues",
+   Checked = Model.BasicValues
+})
+
+<label class="@labelclass">@Html.DisplayNameFor(x => x.IFCFileTypeId)</label>
+@Html.Action("IFCFileTypes", new { selected = Model.IFCFileTypeId })
+<label class="@labelclass">@Html.DisplayNameFor(x => x.IFCIncludeBoundatyId)</label>
+@Html.Action("IFCIncludeBoundaties", new { selected = Model.IFCIncludeBoundatyId })
+
+<br />

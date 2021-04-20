@@ -1,0 +1,123 @@
+﻿
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+#sidebar {
+    width: 300px;
+    transition: all 0.3s;
+}
+
+.sidebarrowcontainer {
+    padding:4px!important;
+}
+
+.sidebaractive  {
+    background-color: #2E4154;
+}
+
+
+
+.sidebaractive .sidecb {
+    background-color: #1abc9c !important;
+}
+
+.sidebaritemimage {
+    height: 16px;
+    width: 16px;
+    margin-left: 8px;
+    opacity:0.5;
+}
+
+.sidebaractive .sidebaritemimage{
+    opacity:1;
+}
+
+.d-collapse {
+    display: none;
+}
+
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    #sidebar {
+        width:60px;
+    }
+
+    .sidebarcaption{
+        display:none!important;
+    }
+
+    .sidebarimage{
+        height:50px;
+        width:50px;
+    }
+
+    .sidebaritemimage {
+        height: 32px;
+        width: 32px;
+        margin-left: 8px;
+    }
+
+    .sidebarrowcontainer {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+    .d-collapse{
+        display:flex!important;
+    }
+}
+
+/* ---------------------------------------------------
+    VIEWMENU
+----------------------------------------------------- */
+
+.view-menu-btn {
+    width: 80px !important;
+    font-size: 12pt !important;
+    border-radius: 0;
+    margin: 0 !important;
+}
+
+    .view-menu-btn:hover {
+        color: #1abc9c !important;
+    }
+
+.btn-table-view, .btn-chart-view, .btn-calendar-view{
+    border-radius:0!important;
+}
+
+@media (max-width: 768px) {
+    .view-menu-btn{
+        width:40px!important;
+    }
+
+        .view-menu-btn:hover {
+            box-shadow: 0px 2px 0px 0px rgba(52, 73, 94, 1) !important;
+        }
+
+    .view-menu-btn {
+        background-size: 24px !important;
+        height: 40px !important;
+        width: 40px !important;
+    }
+
+        .btn-table-view span, .btn-chart-view span, .btn-calendar-view span, .space {
+            display: none !important;
+        }
+
+    .btn-table-view {
+        background: url('images/lis.png') no-repeat center;
+    }
+
+    .btn-chart-view {
+        background: url('images/gantt.png') no-repeat center;
+    }
+
+    .btn-calendar-view {
+        background: url('images/planner.png') no-repeat center;
+    }
+}

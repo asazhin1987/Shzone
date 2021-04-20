@@ -1,0 +1,136 @@
+﻿@using SharedZone.DTO;
+
+@model IEnumerable<ServerDTO>
+
+<script>
+    $(function () {
+        $('.editcoll').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: 'EditServer',
+                data: 'Id=' + e.target.id,
+                beforeSend: function () {
+                    $("#locloading").show();
+                    ShowModalRight();
+                },
+                success: function (data) {
+                    $('#rightdialog').html(data);
+                    $("#locloading").hide();
+                }
+            })
+        });
+
+        $('.delcoll').click(function (e) {
+             if (confirm('@Resources.Global.ConfirmRemove')) {
+                 $.ajax({
+                        type: "POST",
+                        url: 'RemoveServer',
+                        data: 'Id=' + e.target.id,
+                        success: function () {
+                            UpdateResult();
+                        }
+                    });
+                }
+            });
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $(".line-tooltip").tooltip({
+            delay: { show: 500, hide: 0 }
+        });
+        SetEnabledButton();
+    });
+</script>
+
+<style>
+    .center div, .center span {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+</style>
+
+<div class="d-flex flex-row p-0 text-secondary center  t-header" style="font-size:10pt;border-bottom:solid 2px #2E4154; height:40px; ">
+    <div class="fix-w-40 justify-content-center ">
+        @Resources.Setting.Id
+    </div>
+    <div class="col col-xl-3 col ">
+        @Resources.Setting.Name
+    </div>
+    <div class="col-1">
+        @Resources.Setting.Version
+    </div>
+    <div class="fix-w-40 ">
+
+    </div>
+    <div class="fix-w-40  ">
+
+    </div>
+
+    <div class=" col-xl-2 col-lg-3 col-sm-4 col-md-4 col-4 ">
+        @Resources.Setting.LastUpdate
+    </div>
+    <div class="d-none d-lg-flex d-xl-flex d-xl-flex col-lg-2 col-sm-2 col-xl-1  ">
+        @Resources.Setting.RemovedQnt
+    </div>
+    <div class="d-none d-lg-flex d-xl-flex col-lg-2 col-sm-2 col-xl-1">
+        @Resources.Setting.AddedQnt
+    </div>
+    <div class="d-none d-xl-flex col-2 ">
+        @Resources.Setting.Description
+    </div>
+</div>
+
+
+
+@foreach (var item in Model.AsParallel().AsOrdered())
+{
+   <div class="d-flex flex-row p-0 bg-white border-bottom border-light t-row center ">
+        <div class="fix-w-40  justify-content-center line-tooltip">
+            @item.Id
+        </div>
+        <div class="col col-xl-3 col">
+            @item.Name
+        </div>
+        <div class="col-1">
+            @item.RevitVersionName
+        </div>
+        <div class="fix-w-40  justify-content-center">
+            <span id="@item.Id" class="editcoll btn btn-sm light-green-btn border-0"
+                  title="@Resources.Controls.Edit">
+                &#x2630;
+            </span>
+        </div>
+
+        <div class="fix-w-40  justify-content-center">
+            <span id="@item.Id" class="delcoll  btn btn-sm btn-outline-danger border-0"
+                  title="@Resources.Controls.Delete">
+                &#10005;
+            </span>
+        </div>
+
+        <div class=" col-xl-2 col-lg-3 col-sm-4 col-md-4 col-4 "  style="font-size:10pt;">
+            @item.LastUpdate
+        </div>
+        <div class="d-none d-lg-flex d-xl-flex col-lg-2 col-sm-2 col-xl-1 " style="font-size:10pt;">
+             @item.RemovedQnt
+        </div>
+        <div class="d-none d-lg-flex d-xl-flex col-lg-2 col-sm-2 col-xl-1" style="font-size:10pt;">
+            @item.AddedQnt
+        </div>
+        <div class="d-none d-xl-flex col-2"  style="font-size:10pt;">
+            @item.Description
+        </div>
+    </div>
+}

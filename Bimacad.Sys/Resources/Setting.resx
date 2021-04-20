@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddedQnt" xml:space="preserve">
+    <value>Добавлено</value>
+  </data>
+  <data name="AddIFCJob" xml:space="preserve">
+    <value>Create a new unload action in IFC format (.ifc)</value>
+  </data>
+  <data name="AddNavisJob" xml:space="preserve">
+    <value>Create a new unload action in  Navisworks (.nwc)</value>
+  </data>
+  <data name="AddRevitJob" xml:space="preserve">
+    <value>Create a new unload action in Revit format (.rvt)</value>
+  </data>
+  <data name="AffixesLinks" xml:space="preserve">
+    <value>Именования моделей</value>
+  </data>
+  <data name="AffixLinks" xml:space="preserve">
+    <value>Прикрепить ссылки</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="AtWork" xml:space="preserve">
+    <value>выполняется</value>
+  </data>
+  <data name="Audit" xml:space="preserve">
+    <value>Аудит</value>
+  </data>
+  <data name="BasicValues" xml:space="preserve">
+    <value>Экспорт основных величин</value>
+  </data>
+  <data name="BeginTime" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="ChooseView" xml:space="preserve">
+    <value>Выбрать вид</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Станция</value>
+  </data>
+  <data name="CloseWorksets" xml:space="preserve">
+    <value>Закрыть все рабочие наборы</value>
+  </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="CollectionsCaption" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
+  <data name="ConvertIdentif" xml:space="preserve">
+    <value>Конвертировать идентификаторы элементов</value>
+  </data>
+  <data name="CurrentView" xml:space="preserve">
+    <value>Только текущий вид</value>
+  </data>
+  <data name="CurrentViewName" xml:space="preserve">
+    <value>Имя вида</value>
+  </data>
+  <data name="DefaultClient" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="DefaultVersion" xml:space="preserve">
+    <value>Текущая</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>Открыть с отсоединением</value>
+  </data>
+  <data name="DevideFiles" xml:space="preserve">
+    <value>Разделить файлы на уровни</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Директория (полный путь)</value>
+  </data>
+  <data name="DirectoryCaptions" xml:space="preserve">
+    <value>Файловые хранилища</value>
+  </data>
+  <data name="DivideWalls" xml:space="preserve">
+    <value>Разделить стены и колонны на этаже</value>
+  </data>
+  <data name="DoNotDetach" xml:space="preserve">
+    <value>Открыть без отсоединения</value>
+  </data>
+  <data name="Elements" xml:space="preserve">
+    <value>Элементы</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>Окончание</value>
+  </data>
+  <data name="ExceptionsWorksets" xml:space="preserve">
+    <value>Исключения (через "," или ";")</value>
+  </data>
+  <data name="ExceptionViews" xml:space="preserve">
+    <value>Исключения (через "," или ";")</value>
+  </data>
+  <data name="ExportGeometryRoom" xml:space="preserve">
+    <value>Экспортировать геометрию помещения</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Модели Revit</value>
+  </data>
+  <data name="First Level" xml:space="preserve">
+    <value>Первый уровень</value>
+  </data>
+  <data name="Fr" xml:space="preserve">
+    <value>Пт</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="IFCFileType" xml:space="preserve">
+    <value>Тип файлов</value>
+  </data>
+  <data name="IFCIncludeBoundaty" xml:space="preserve">
+    <value>Включить границы пространств</value>
+  </data>
+  <data name="Internal" xml:space="preserve">
+    <value>Внутренние</value>
+  </data>
+  <data name="JobCollection" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="Last3MonthsCapt" xml:space="preserve">
+    <value>последние 3 мес.</value>
+  </data>
+  <data name="Last3MonthsQnt" xml:space="preserve">
+    <value>Использования (3 мес)</value>
+  </data>
+  <data name="Last3MonthsUniqQnt" xml:space="preserve">
+    <value>Дней пользования (3 мес)</value>
+  </data>
+  <data name="LastActivites" xml:space="preserve">
+    <value>Последняя активность</value>
+  </data>
+  <data name="LastStart" xml:space="preserve">
+    <value>Последний запуск</value>
+  </data>
+  <data name="LastUpdate" xml:space="preserve">
+    <value>Обновлено</value>
+  </data>
+  <data name="LicenseQnt" xml:space="preserve">
+    <value>Общее количество рабочих мест</value>
+  </data>
+  <data name="LicenseUsedQnt" xml:space="preserve">
+    <value>Общее количество пользователей</value>
+  </data>
+  <data name="LogTime" xml:space="preserve">
+    <value>Время постановки в очередь</value>
+  </data>
+  <data name="Mo" xml:space="preserve">
+    <value>Пн</value>
+  </data>
+  <data name="Models" xml:space="preserve">
+    <value>Модели Revit</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Наименование</value>
+  </data>
+  <data name="NavisConvertElementsProperty" xml:space="preserve">
+    <value>Конвертировать параметры элементов</value>
+  </data>
+  <data name="NavisCoordinate" xml:space="preserve">
+    <value>Координаты</value>
+  </data>
+  <data name="NavisView" xml:space="preserve">
+    <value>Экспорт вида</value>
+  </data>
+  <data name="NextStart" xml:space="preserve">
+    <value>Следующий запуск</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NotAssigned" xml:space="preserve">
+    <value>Не назначено</value>
+  </data>
+  <data name="NowCapt" xml:space="preserve">
+    <value>текущ.</value>
+  </data>
+  <data name="OpenParams" xml:space="preserve">
+    <value>Параметры открытия</value>
+  </data>
+  <data name="OpenWorksets" xml:space="preserve">
+    <value>Открыть все рабочие наборы</value>
+  </data>
+  <data name="OutOf" xml:space="preserve">
+    <value>из</value>
+  </data>
+  <data name="ParamsExport" xml:space="preserve">
+    <value>Параметры экспорта</value>
+  </data>
+  <data name="ParamsSetting" xml:space="preserve">
+    <value>Параметры и расписание</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Путь для экспорта</value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value>Очистить неиспользуемые</value>
+  </data>
+  <data name="RemovedQnt" xml:space="preserve">
+    <value>Удалено</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Результат</value>
+  </data>
+  <data name="RevitServerName" xml:space="preserve">
+    <value>Имя Revit Server</value>
+  </data>
+  <data name="Sa" xml:space="preserve">
+    <value>Сб</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Second Level" xml:space="preserve">
+    <value>Второй уровень</value>
+  </data>
+  <data name="ServerCaption" xml:space="preserve">
+    <value>Серверы Revit</value>
+  </data>
+  <data name="Shared" xml:space="preserve">
+    <value>Внешние</value>
+  </data>
+  <data name="Su" xml:space="preserve">
+    <value>Вс</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Успешно</value>
+  </data>
+  <data name="Th" xml:space="preserve">
+    <value>Чт</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="TransformConstructionElements" xml:space="preserve">
+    <value>Проверять и находить отсутствующие материалы</value>
+  </data>
+  <data name="TransformElementsProperty" xml:space="preserve">
+    <value>Преобразовать свойства элементов</value>
+  </data>
+  <data name="TransformLinkedFiles" xml:space="preserve">
+    <value>Преобразовать связанные файлы</value>
+  </data>
+  <data name="TransformRoom" xml:space="preserve">
+    <value>Преобразовать помещения как атрибут</value>
+  </data>
+  <data name="TransformURL" xml:space="preserve">
+    <value>Преобразовать URL адреса</value>
+  </data>
+  <data name="TruncateLinks" xml:space="preserve">
+    <value>Удалить все ссылки</value>
+  </data>
+  <data name="TruncateView" xml:space="preserve">
+    <value>Удалить все виды</value>
+  </data>
+  <data name="Tu" xml:space="preserve">
+    <value>Вт</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия Revit</value>
+  </data>
+  <data name="ViewName" xml:space="preserve">
+    <value>Наименование вида</value>
+  </data>
+  <data name="We" xml:space="preserve">
+    <value>Ср</value>
+  </data>
+  <data name="WeekDays" xml:space="preserve">
+    <value>Дни недели</value>
+  </data>
+  <data name="WholeProject" xml:space="preserve">
+    <value>Весь проект</value>
+  </data>
+  <data name="Worksets" xml:space="preserve">
+    <value>Рабочие наборы</value>
+  </data>
+</root>

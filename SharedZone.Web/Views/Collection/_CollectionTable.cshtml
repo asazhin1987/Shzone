@@ -1,0 +1,198 @@
+﻿@using SharedZone.DTO;
+@using SharedZone.Web.Util;
+@using SharedZone.Web.Models;
+
+@model IEnumerable<CollectionDTO>
+
+
+<script>
+    $(function () {
+        $('.editcoll').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: 'EditCollection',
+                data: 'Id=' + e.target.id,
+                beforeSend: function () {
+                    $("#locloading").show();
+                    ShowModalRight();
+                },
+                success: function (data) {
+                    $('#rightdialog').html(data);
+                    $("#locloading").hide();
+                }
+            })
+        });
+
+        $('.delcoll').click(function (e) {
+             if (confirm('@Resources.Global.ConfirmRemove')) {
+                 $.ajax({
+                        type: "POST",
+                        url: 'RemoveCollection',
+                        data: 'Id=' + e.target.id,
+                        success: function () {
+                            UpdateResult();
+                        }
+                    });
+                }
+            });
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $(".line-tooltip").tooltip({
+            delay: { show: 500, hide: 0 }
+        });
+        SetEnabledButton();
+    });
+</script>
+
+
+<style>
+    .center div, .center span {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+</style>
+
+<div class="d-flex flex-row p-0 text-secondary center  t-header" style="font-size:10pt;border-bottom:solid 2px #2E4154; height:40px; ">
+    <div class="fix-w-40 justify-content-center ">
+        @Resources.Setting.Id
+    </div>
+    <div class="col col-sm-5 col-lg-4 col-xl-2">
+        @Resources.Setting.Name
+    </div>
+    <div class="fix-w-40 ">
+
+    </div>
+    <div class="fix-w-40 ">
+
+    </div>
+    <div class="d-none d-lg-flex d-xl-flex col-xl-1 col-lg-3 col-3 ">
+        @Resources.Setting.Client
+    </div>
+    <div class="col col-xl-2 ">
+        @Resources.Setting.Schedule
+    </div>
+    <div class="d-none d-xl-flex col-xl-2 ">
+        @Resources.Setting.LastStart
+    </div>
+    <div class="d-none d-xl-flex col">
+        @Resources.Setting.Description
+    </div>
+
+</div>
+
+@foreach (var item in Model.AsParallel().AsOrdered())
+{
+    @Row(item)
+}
+
+
+@helper  Row(CollectionDTO item)
+{
+    <div class="d-flex flex-row p-0 bg-white border-bottom border-light t-row center ">
+        <div class="fix-w-40 justify-content-center line-tooltip ">
+            @item.Id
+        </div>
+        <div class="col col-sm-5 col-lg-4 col-xl-2 flex-column p-0">
+            <span class="col">@item.Name</span>
+            <span class="d-block d-lg-none d-xl-none col text-light-green" style="font-size:10pt;">@item.ClientName</span>
+            <span class="col d-flex flex-row" style="font-size:10pt;">
+                @JobsImg(item.RevitJobsDTO)
+                @JobsImg(item.NavisJobsDTO)
+                @JobsImg(item.IFCJobsDTO)
+            </span>
+        </div>
+
+        <div class="fix-w-40  justify-content-center">
+            <span id="@item.Id" class="editcoll btn btn-sm light-green-btn border-0"
+                  title="@Resources.Controls.Edit">
+                &#x2630;
+            </span>
+        </div>
+
+        <div class="fix-w-40  justify-content-center">
+            <span id="@item.Id" class="delcoll  btn btn-sm btn-outline-danger border-0"
+                  title="@Resources.Controls.Delete">
+                &#10005;
+            </span>
+        </div>
+        <div class="d-none d-lg-flex d-xl-flex col-xl-1 col-lg-3 col-3 ">
+            @item.ClientName
+        </div>
+        <div class="col col-xl-2 d-flex flex-column p-0 ">
+            <span class="col">@HelperModule.GetWdStrings(item.WeekDayDTOs)</span>
+            <span class="col " style="font-size:10pt;">@(new DateTime(item.StartTime.Ticks).ToShortTimeString())</span>
+        </div>
+        <div class="d-none d-xl-flex col-xl-2  p-0 " style="font-size:10pt;">
+            <span class="d-flex flex-row">
+                <span class="col d-flex flex-column p-0">
+                    <span class="col">@(item.LastJobLaunch?.StartDateTime)</span>
+                    <span class="col">@(item.LastJobLaunch?.EndDateTime.ToString() ?? "-")</span>
+                </span>
+                <span class="fix-w-16">
+                    @if (item.LastJobLaunch != null)
+                    {
+                        var launch = item.LastJobLaunch;
+                        if (launch.Success)
+                        {
+                            <span class="text-light-green">&#x2714;</span>
+                        }
+                        else if (launch.Success == false && launch.IsAtWork == false)
+                        {
+                            <span class="text-danger">&#x2716;</span>
+                        }
+                    }
+                </span>
+            </span>
+
+        </div>
+        <div class="d-none d-xl-flex col" style="font-size:10pt;">
+            @item.Description
+        </div>
+    </div>
+
+}
+
+
+@helper JobsImg(IEnumerable<JobDTO> jobs)
+{
+    foreach (var job in jobs)
+    {
+        @: @JobImg(job)
+    }
+}
+
+@helper JobImg(JobDTO job)
+{
+    if (job is RevitJobDTO rj)
+    {
+        @: @JobImg((RevitJobViewModel)rj)
+    }
+    if (job is NavisJobDTO nj)
+    {
+        @: @JobImg((NavisJobViewModel)nj)
+    }
+    if (job is IFCJobDTO ij)
+    {
+        @: @JobImg((IFCJobViewModel)ij)
+    }
+}
+
+@helper JobImg(JobViewModel job)
+{
+    <img src="~/Content/images/@job.Icon" class="fix-h-16 mr-1" />
+}
+

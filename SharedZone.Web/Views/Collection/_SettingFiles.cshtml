@@ -1,0 +1,104 @@
+﻿@using SharedZone.Web.Models;
+@using SharedZone.DTO;
+
+@model CollectionFilesViewModel
+
+<script>
+    $(function () {
+        $('#editfiles').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: 'EditFiles',
+                data: 'Id=' + @Model.CollectionId,
+                beforeSend: function () {
+                    $("#locloading").show();
+                },
+                success: function (data) {
+                    $('#filescontainer').html(data);
+                      $("#locloading").hide();
+                }
+            })
+        });
+
+        $('#clearfiles').click(function (e) {
+            if (confirm('@Resources.Global.ConfirmRemove')) {
+                $.ajax({
+                type: 'POST',
+                url: 'ClearModels',
+                data: 'Id=' + @Model.CollectionId,
+                beforeSend: function () {
+                    $("#locloading").show();
+                },
+                success: function (data) {
+                    $('#filescontainer').html(data);
+                      $("#locloading").hide();
+                }
+            })
+            }
+        });
+    });
+</script>
+
+<style>
+    .local-img {
+        width: 24px;
+    }
+</style>
+
+<button class="btn btn-sm light-green-btn " id="editfiles">
+    @Resources.Controls.Edit
+</button>
+
+@if (Model.IsNotEmpty)
+{
+    <button class="btn btn-sm btn-outline-danger " id="clearfiles">
+        @Resources.Controls.Clear
+    </button>
+}
+
+<p class="border-bottom border-dark-green pb-2"></p>
+
+@foreach (var src in Model.Servers.RevitServers.Items)
+{
+    @: @SrvRow(src)
+}
+
+@foreach (var src in Model.Servers.Directories.Items)
+{
+    @: @SrvRow(src)
+}
+
+@helper  SrvRow(ServerDTO srv)
+{
+    <!--Server Row-->
+    <div class="d-flex flex-row p-2 border-bottom border-light  " style="cursor:pointer;font-size:14pt;"
+         data-toggle="collapse" href="#files_@srv.Id" role="button" aria-expanded="false" aria-controls="files_@srv.Id" >
+        <div class="fix-w-32 d-flex justify-content-center">
+            <img src="/Content/images/@(srv.IsDirectory ? "directory.png" : "server.png")" class="local-img" />
+        </div>
+        <div class="col p-0" >
+            @srv.Name (@srv.Files.Count())
+        </div>
+    </div>
+    <div class="collapse" id="files_@srv.Id">
+        @FileRows(srv.Files, srv.Name)
+    </div>
+}
+
+
+
+@helper FileRows(IEnumerable<RevitModelDTO> files, string srcname)
+{
+    foreach (var file in files)
+    {
+        <!--File Row-->
+        <div class="d-flex flex-row">
+            <div class="fix-w-32 d-flex justify-content-center">
+
+            </div>
+            <div class="col p-0">
+                @file.Path.Replace(srcname, "..")
+            </div>
+        </div>
+    }
+}

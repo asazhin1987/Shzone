@@ -1,0 +1,20 @@
+﻿
+@using SharedZone.Web.Models;
+
+@model NamedUnitsViewModel
+
+@{
+    int _ch = (int)ViewBag.Checked;
+}
+
+@foreach (var item in Model.Items)
+{
+    @_Controls.CustomRadio(new RadioViewModel()
+    {
+        Id = $"RevitVersionId_{item.Id}",
+        DisplayText = item.Name,
+        Value = item.Id,
+        Name = "RevitVersionId",
+        Checked = _ch == item.Id
+    })
+}

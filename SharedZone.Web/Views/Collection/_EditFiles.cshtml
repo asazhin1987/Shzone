@@ -1,0 +1,148 @@
+﻿@using SharedZone.Web.Models;
+@using SharedZone.DTO;
+
+@model CollectionFilesViewModel
+
+<style>
+    .local-img {
+       width:24px;
+       height:24px;
+    }
+
+    .files-div {
+        height: calc(100vh - 140px) !important; /*  height:calc(100vh - 54px)!important;*/
+    }
+
+    .folder-row {
+        cursor: pointer;
+        /*border-left: solid 2px white;*/
+        transition: all 0.3s ease-in-out;
+    }
+
+        .folder-row:hover {
+            /*border-left:solid 2px #34495E!important;*/
+        }
+</style>
+
+
+
+@using (Ajax.BeginForm("EditFiles", "Collection", new { Id = Model.CollectionId }
+        , new AjaxOptions() { UpdateTargetId = "filescontainer", HttpMethod = "Post", LoadingElementId = "locloading" }
+        , new { Id = "SaveFileForm" }))
+{
+
+
+    <div class="files-div overflow-auto">
+        @SertverTypeRow(@Resources.Setting.ServerCaption, "geography-32.png", "srvcontainer" )
+        <div class="collapse" id="srvcontainer">
+            @RvtServer(Model.Servers.RevitServers, "server.png")
+        </div>
+        @SertverTypeRow(@Resources.Setting.DirectoryCaptions, "folder-32.png", "folderscontainer" )
+        <div class="collapse" id="folderscontainer">
+            @RvtServer(Model.Servers.Directories, "directory.png")
+        </div>
+    </div>
+}
+
+@helper SertverTypeRow(string caption, string img, string collapseId)
+{
+    <div class="d-flex flex-row border-bottom border-light min-h-40 folder-row " 
+         data-toggle="collapse" href="#@collapseId" role="button" aria-expanded="false" aria-controls="@collapseId">
+        <div class="fix-w-40 bg-primary-green d-flex justify-content-center align-items-center ">
+            <img src="~/Content/images/@img"  class="local-img"/>
+        </div>
+        <div class="col d-flex justify-content-start align-items-center ">
+            @caption
+        </div>
+    </div>
+}
+
+
+@using (Ajax.BeginForm("CollectionFiles", "Collection", new { Id = Model.CollectionId }
+        , new AjaxOptions() { UpdateTargetId = "filescontainer", HttpMethod = "Get", LoadingElementId = "locloading" }
+        , new { Id = "CancelFileForm" })) { }
+
+<div class="col d-flex flex-row bg-white justify-content-end mt-2 position-sticky " style="bottom:0!important;z-index:10;">
+    <button type="submit" class="btn light-green-btn min-w-120 " form="CancelFileForm">@Resources.Controls.Cancel</button>
+    <button type="submit" class="btn dark-green-btn ml-2 min-w-120 " form="SaveFileForm">@Resources.Controls.Save</button>
+</div>
+
+
+@helper RvtServer(ServersViewModel servers, string img)
+{
+    if (servers.IsNotEmpty)
+    {
+        foreach (var srv in servers.Items)
+        {
+            <div class="d-flex flex-row pt-2 pb-2 border-bottom border-light " style="cursor:pointer;"
+                     data-toggle="collapse" href="#srv_@srv.Id" role="button" aria-expanded="false" aria-controls="srv_@srv.Id">
+                <div class="fix-w-40  d-flex justify-content-center  align-items-center">
+                    <img src="/Content/images/@img" class="local-img" />
+                </div>
+                <div class="col d-flex justify-content-start align-items-center">
+                    @srv.Name (@srv.SelectedFilesCount @Resources.Setting.OutOf @srv.FilesCount)
+                </div>
+            </div>
+            <div class="collapse @(srv.SelectedFilesCount > 0 ? "show" : "") " id="srv_@srv.Id">
+                @foreach(var dir in srv.Folders.Where(x => x.FilesCount > 0))
+                {
+                    @Directory(dir, 2)
+                }
+                @foreach (var file in srv.Files)
+                {
+                    @File(file, 2)
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-secondary p-2">@Resources.Global.EmptyModelsCollection</p>
+    }
+}
+
+@helper Directory(RevitModelDTO dir, int p)
+{
+    p += 2;
+    <div class="d-flex flex-row folder-row " onclick="InputToggle('cb_files_@dir.Id');"
+          data-toggle="collapse" href="#files_@dir.Id" role="button" aria-expanded="false" aria-controls="files_@dir.Id">
+        <div class="fix-w-32">
+
+        </div>
+        <div class="font-weight-bold   pl-@p" >
+            @dir.Name (@dir.SelectedFilesCount @Resources.Setting.OutOf @dir.FilesCount)
+        </div>
+    </div>
+    <div class="collapse  @(dir.SelectedFilesCount > 0 ? "show" : "")" id="files_@dir.Id">
+        @{p += 1; }
+
+        @foreach (var _dir in dir.Folders.Where(x => x.Folders.Count() > 0 || x.Files.Count() > 0))
+        {
+            @Directory(_dir, p)
+        }
+        @foreach (var file in dir.Files)
+        {
+            @File(file, p)
+        }
+    </div>
+
+
+}
+
+
+
+@helper File(RevitModelDTO file, int p)
+{
+    <div class="d-flex flex-row p-0" style="margin-left:32px;">
+        <div class="pl-@p pt-0 pb-0 m-0">
+            @_Controls.CustomCheckBox(new CheckBoxViewModel()
+           {
+               Checked = file.Checked,
+               Name = "files",
+               Value = file.Id,
+               DisplayText = file.Name,
+               Id = $"file_{file.Id}"
+           })
+        </div>
+    </div>
+}

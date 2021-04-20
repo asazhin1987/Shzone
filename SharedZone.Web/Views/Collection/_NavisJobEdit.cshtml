@@ -1,0 +1,135 @@
+﻿@using SharedZone.Web.Models;
+
+@model NavisJobViewModel
+
+@{
+    string labelclass = "control-label col-md-8  text-primary-green pl-1 pr-1 text-uppercase font-weight-bold";
+    string editorclass = "col-md-12 pl-1 pr-1";
+}
+
+
+
+<div class="border-bottom border-top border-dark-green pb-2 pt-2 mb-2">
+    <label class="@labelclass">@Resources.Setting.ParamsExport</label>
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+{
+    DisplayText = Html.DisplayNameFor(x => x.ConvertIdentif).ToString(),
+    Id = "ConvertIdentif",
+    Name = "ConvertIdentif",
+    Checked = Model.ConvertIdentif
+})
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.TransformURL).ToString(),
+        Id = "TransformURL",
+        Name = "TransformURL",
+        Checked = Model.TransformURL
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.ConvertIdentif).ToString(),
+        Id = "ConvertIdentif",
+        Name = "ConvertIdentif",
+        Checked = Model.ConvertIdentif
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.TransformRoom).ToString(),
+        Id = "TransformRoom",
+        Name = "TransformRoom",
+        Checked = Model.TransformRoom
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.TransformElementsProperty).ToString(),
+        Id = "TransformElementsProperty",
+        Name = "TransformElementsProperty",
+        Checked = Model.TransformElementsProperty
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.TransformLinkedFiles).ToString(),
+        Id = "TransformLinkedFiles",
+        Name = "TransformLinkedFiles",
+        Checked = Model.TransformLinkedFiles
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.TransformConstructionElements).ToString(),
+        Id = "TransformConstructionElements",
+        Name = "TransformConstructionElements",
+        Checked = Model.TransformConstructionElements
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.DevideFiles).ToString(),
+        Id = "DevideFiles",
+        Name = "DevideFiles",
+        Checked = Model.DevideFiles
+    })
+
+    @_Controls.BoolCustomCheckBox(new CheckBoxViewModel()
+    {
+        DisplayText = Html.DisplayNameFor(x => x.ExportGeometryRoom).ToString(),
+        Id = "ExportGeometryRoom",
+        Name = "ExportGeometryRoom",
+        Checked = Model.ExportGeometryRoom
+    })
+
+</div>
+
+<label class="@labelclass">@Html.DisplayNameFor(x => x.NavisConvertElementsPropertyId)</label>
+
+@Html.Action("NavisConvertElementsProperties", new { selected = Model.NavisConvertElementsPropertyId })
+<br />
+<label class="@labelclass">@Html.DisplayNameFor(x => x.NavisCoordinateId)</label>
+@Html.Action("NavisCoordinates", new { selected = Model.NavisCoordinateId })
+<br />
+<label class="@labelclass">@Html.DisplayNameFor(x => x.NavisViewId)</label>
+
+@_Controls.CustomRadio(new RadioViewModel()
+{
+    DisplayText = Resources.Setting.WholeProject,
+    Value = 1,
+    Name = "NavisViewId",
+    Id = "NavisViewId1",
+    Checked = Model.NavisViewId == 1,
+    OnChangeAction = "currviewHide();"
+})
+
+@_Controls.CustomRadio(new RadioViewModel()
+{
+    DisplayText = Resources.Setting.ChooseView,
+    Value = 2,
+    Name = "NavisViewId",
+    Id = "NavisViewId2",
+    Checked = Model.NavisViewId == 2, 
+    OnChangeAction = "currviewShow();"
+})
+
+<div class="form-group  collapse @(Model.NavisViewId == 2 ? "show" : "") " id="currview">
+    @Html.LabelFor(model => model.ViewName, htmlAttributes: new { @class = labelclass })
+    <div class="@editorclass">
+        @Html.TextAreaFor(model => model.ViewName, rows: 2, columns: 10, htmlAttributes: new { @class = "form-control  bg-light p-1" })
+        @Html.ValidationMessageFor(model => model.ViewName, "", new { @class = "text-danger" })
+    </div>
+</div>
+<br />
+
+
+<script>
+    function currviewHide() {
+        $('#currview').collapse('hide');
+    }
+
+    function currviewShow() {
+        $('#currview').collapse('show');
+    }
+</script>

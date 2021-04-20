@@ -1,0 +1,38 @@
+﻿@using SharedZone.Web.Models;
+
+@model LicenseViewModel
+
+
+
+@using (Ajax.BeginForm("EditLicense", null
+            , new AjaxOptions() { UpdateTargetId = "rightdialog", HttpMethod = "Get", LoadingElementId = "loading" }
+            , new { Id = $"EditForm" })) { }
+
+@if (Model.Success)
+{
+    <h5 class="col text-primary-green pt-2">
+        @Html.DisplayFor(x => x.Message)
+    </h5>
+    <button class="col-auto btn  dark-green-btn" form="EditForm" data-toggle="modal" data-target="#rightModal">
+        @Resources.Controls.EditLicenseKey
+    </button>
+}
+else
+{
+    <style>
+        #diagramcontainer, #tablecontainer {
+            opacity: 0.1 !important;
+        }
+    </style>
+
+    <h5 class="col text-danger pt-2">
+        @Html.DisplayFor(x => x.Message)
+    </h5>
+    <button class="col-auto btn dark-green-btn" form="EditForm" data-toggle="modal" data-target="#rightModal">
+        @Resources.Controls.EditLicenseKey
+    </button>
+}
+
+
+
+

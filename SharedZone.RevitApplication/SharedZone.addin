@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Bim Manager</Name>
+    <Assembly>BIMACAD\SharedZone\SharedZone.RevitApplication.dll</Assembly>
+    <ClientId>c33f1fcf-98a1-4c37-b9cd-71b82ab003d5</ClientId>
+    <FullClassName>SharedZone.RevitApplication.Application</FullClassName>
+    <Text>SharedZone</Text>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>BIMA</VendorId>
+    <VendorDescription>Bim Academy LLC, bimacad.ru</VendorDescription>
+  </AddIn>
+</RevitAddIns>

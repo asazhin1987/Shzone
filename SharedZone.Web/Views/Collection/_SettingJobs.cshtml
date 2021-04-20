@@ -1,0 +1,102 @@
+﻿@using SharedZone.Web.Models;
+
+@model JobsViewModel
+
+@{
+    int Id = Model.CollectionId;
+}
+
+
+<script>
+    function JobEdit(id, typename) {
+         $.ajax({
+                type: 'GET',
+                url: 'EditJob',
+                data: 'Id=' + id + "&typeName=" + typename,
+                beforeSend: function () {
+                    $("#locloading").show();
+                },
+                success: function (data) {
+                    $('#jobscontainer').html(data);
+                      $("#locloading").hide();
+                }
+            })
+    }
+
+    function RemoveJob(id, typename) {
+        if (confirm('@Resources.Global.ConfirmRemove')) {
+                 $.ajax({
+                        type: "POST",
+                        url: 'DeleteJob',
+                        data: 'Id=' + id + "&typeName=" + typename,
+                        success: function () {
+                            UpdateResult();
+                        }
+                    });
+                }
+            };
+
+
+</script>
+
+
+<section class="d-none">
+    @using (Ajax.BeginForm("CreateRevitJob", "Collection", new { collectionId = Id }
+        , new AjaxOptions() { UpdateTargetId = "jobscontainer", HttpMethod = "Get", LoadingElementId = "locloading" }
+        , new { Id = "CreateRevitJobForm" })) { }
+
+    @using (Ajax.BeginForm("CreateNavisJob", "Collection", new { collectionId = Id }
+       , new AjaxOptions() { UpdateTargetId = "jobscontainer", HttpMethod = "Get", LoadingElementId = "locloading" }
+       , new { Id = "CreateNavisJobForm" })) { }
+
+    @using (Ajax.BeginForm("CreateIFCJob", "Collection", new { collectionId = Id }
+       , new AjaxOptions() { UpdateTargetId = "jobscontainer", HttpMethod = "Get", LoadingElementId = "locloading" }
+       , new { Id = "CreateIFCJobForm" })) { }
+
+</section>
+
+<span class="d-flex flex-row border-bottom border-dark-green mb-2 pb-3">
+    <span class="col text-right pr-2 d-flex align-items-center justify-content-end ">
+       @Resources.Controls.Add
+    </span>
+    <button type="submit" class="btn mr-1 light-green-btn btn-revit " title="@Resources.Setting.AddRevitJob"
+            form="CreateRevitJobForm">
+    </button>
+    <button  type="submit" class="btn mr-1 light-green-btn btn-navis " title="@Resources.Setting.AddNavisJob"
+            form="CreateNavisJobForm">
+    </button>
+    <button  type="submit" class="btn mr-1 light-green-btn btn-ifc " title="@Resources.Setting.AddIFCJob"
+            form="CreateIFCJobForm">
+    </button>
+
+</span>
+
+
+<div class="d-flex flex-column p-0">
+    @foreach (var job in Model.Jobs)
+    {
+
+    <div class="d-flex flex-row bg-white border-bottom border-light t-row center "  ondblclick="JobEdit(@job.Id, '@job.GetType().Name')">
+        <div class="fix-w-40">
+            <img src="~/Content/images/@job.Icon" class="fix-w-32" />
+        </div>
+
+        <div class="col">
+            @job.Name
+        </div>
+        <div class="fix-w-40  justify-content-center">
+            <span class="editcoll btn btn-sm light-green-btn border-0"
+                  title="@Resources.Controls.Edit"  onclick="JobEdit(@job.Id, '@job.GetType().Name')">
+                &#x2630;
+            </span>
+        </div>
+        <div class="fix-w-40  justify-content-center">
+            <span class="delcoll  btn btn-sm btn-outline-danger border-0"
+                  title="@Resources.Controls.Delete" onclick="RemoveJob(@job.Id, '@job.GetType().Name')">
+                &#10005;
+            </span>
+        </div>
+    </div>
+    }
+</div>
+

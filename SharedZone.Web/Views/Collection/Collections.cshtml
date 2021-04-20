@@ -1,0 +1,96 @@
+﻿@using SharedZone.Web.Models;
+@using SharedZone.Web.Application;
+@model CollectionsViewModel
+
+
+<script>
+    $(function () {
+        $('.addcoll').click(function (e) {
+            $.ajax({
+                type: 'GET',
+                url: 'CreateCollection',
+                beforeSend: function () {
+                    $("#locloading").show();
+                    ShowModalRight();
+                },
+                success: function (data) {
+                    $('#rightdialog').html(data);
+                    $("#locloading").hide();
+                }
+            })
+        });
+
+        $('.viewbtn').click(function (e) {
+
+            $("#viewType").val(e.target.id);
+            //UpdateResult();
+        });
+    });
+
+
+</script>
+
+
+<script>
+    $("document").ready(function () {
+        UpdateResult();
+    });
+</script>
+
+<style>
+</style>
+
+@using (Ajax.BeginForm("CollectionReport", null
+                         , new AjaxOptions() { UpdateTargetId = "result", HttpMethod = "Get", LoadingElementId = "loading" }
+                         , new { Id = $"UpdateForm" }))
+{
+    <button type="submit" class="d-none"></button>
+}
+
+<div class="col d-flex flex-column  p-0 ">
+    <div class="position-sticky bg-light p-0 d-flex flex-column" style="top:0;z-index:99;">
+        <div class="d-flex flex-row bg-white p-2" style="height:64px;">
+            <div class="d-none d-xl-block col-auto  text-light-green p-0 align-self-center mr-xl-3" style="font-size:20pt;">
+                @Html.DisplayNameFor(m => m.Caption)
+            </div>
+            <button class="mt-1 btn light-green-btn align-self-center d-none d-xl-block d-lg-block pl-3 pr-3 addcoll">
+                @Resources.Controls.Add
+            </button>
+            <button class="mt-1 btn light-green-btn align-self-center d-xl-none d-lg-none d-block addcoll">
+                +
+            </button>
+            <button  class="mt-1 ml-1 btn light-green-btn align-self-center" type="submit" form="UpdateForm">
+                &#x21bb;
+            </button>
+            <div class="col space"></div>
+            <input class="col col-lg-3 col-md-2 col-sm col-xl-3 mt-1 ml-1 mr-1 search bg-light form-control border-0  rounded-0 align-self-center " type="search"
+                   placeholder="@Resources.Controls.Search" name="Search" form="UpdateForm" />
+            <!--FORMS SECTION-->
+            <div class="mt-1 d-flex flex-row align-items-center ">
+                <input type="radio" name="ViewType" id="ReportInput_@UI.ViewType.Table" form="UpdateForm"
+                       value="@UI.ViewType.Table" class="d-none" @(Model.ViewType == UI.ViewType.Table ? "checked = 'checked'" : "") onchange="UpdateResult()" />
+                <label class="btn view-menu-btn m-0 p-0 btn-table-view" for="ReportInput_@UI.ViewType.Table" id="chartBtn">
+                    <span>@Resources.Site.Table</span>
+                </label>
+
+                @*<input type="radio" name="ViewType" id="ReportInput_@UI.ViewType.Chart" form="UpdateForm"
+                           value="@UI.ViewType.Chart" class="d-none"  @(Model.ViewType == UI.ViewType.Chart ? "checked = 'checked'" : "")  onchange="UpdateResult()" />
+                    <label class="btn view-menu-btn m-0 p-0 btn-chart-view" for="ReportInput_@UI.ViewType.Chart" id="chartBtn">
+                        <span>@Resources.Site.Chart</span>
+                    </label>*@
+
+                <input type="radio" name="ViewType" id="ReportInput_@UI.ViewType.Calendar" form="UpdateForm"
+                       value="@UI.ViewType.Calendar" class="d-none" @(Model.ViewType == UI.ViewType.Calendar ? "checked = 'checked'" : "") onchange="UpdateResult()" />
+                <label class="btn view-menu-btn m-0 p-0 btn-calendar-view" for="ReportInput_@UI.ViewType.Calendar" id="chartBtn">
+                    <span>@Resources.Site.Calendar</span>
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col p-0 d-flex flex-column " id="result">
+
+    </div>
+
+</div>

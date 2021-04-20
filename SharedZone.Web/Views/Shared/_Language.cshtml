@@ -1,0 +1,19 @@
+﻿
+@using SharedZone.Web.Util;
+
+@model string
+
+@{
+    string _language = (string)ViewBag.ChangeLang;
+}
+
+@using (Html.BeginForm("SetLanguage", "SharedZone", new { language = _language }, FormMethod.Post))
+{
+    <button class="col btn btn-secondary border-0 bg-primary-green rounded-0 text-uppercase" type="submit">
+        @Model
+    </button>
+}
+
+
+
+
