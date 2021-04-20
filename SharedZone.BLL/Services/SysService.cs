@@ -37,7 +37,8 @@ namespace SharedZone.BLL.Services
 				new ServerDTO
 				{
 					Id = x.Id,
-					Name = x.Name
+					Name = x.Name,
+					RevitVersionName = x.RevitVersion.Name
 				}).AsNoTracking().ToListAsync();
 		}
 
@@ -45,16 +46,19 @@ namespace SharedZone.BLL.Services
 		{
 			try
 			{
+				db.RevitVersions.GetAll().Load();
 				var srv = db.RevitServers.GetAll().Where(x => x.Id == Id).FirstOrDefault();
 				if (srv == null)
 					throw new NotFoundException();
 				var _srv = new ServerDTO().Map(srv);
+				_srv.RevitVersionName = srv.RevitVersion.Name;
+
 				var content = GetContent(_srv.Name, _srv.RevitVersionName, "|");
 				var data = GetRevitServerFoldersAndModels(content, _srv, "|");
 
 				return "OK!!!";
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				return ex.Message;
 			}
@@ -320,7 +324,7 @@ namespace SharedZone.BLL.Services
 			}
 		}
 
-		
+
 
 		private async Task UpdateRevitServer(ServerDTO srv)
 		{
@@ -362,7 +366,7 @@ namespace SharedZone.BLL.Services
 						Path = rsnpath,
 						RevitServerId = srv.Id,
 						IsFolder = true,
-						Folders = GetRevitServerFoldersAndModels(obj2, srv, currentPath), 
+						Folders = GetRevitServerFoldersAndModels(obj2, srv, currentPath),
 						Files = GetFiles()
 					});
 				}
@@ -376,7 +380,7 @@ namespace SharedZone.BLL.Services
 						RevitServerId = srv.Id,
 						IsFolder = false,
 						Name = x["Name"].ToString(),
-						Path = @"RSN://" + srv + @"/" + path.Replace("|", "/").Remove(0, 1) + "/" + x["Name"].ToString(), 
+						Path = @"RSN://" + srv + @"/" + path.Replace("|", "/").Remove(0, 1) + "/" + x["Name"].ToString(),
 						ParentName = path
 					});
 				}
