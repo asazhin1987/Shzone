@@ -10,7 +10,7 @@
     }
 
     .files-div {
-        height: calc(100vh - 140px) !important; /*  height:calc(100vh - 54px)!important;*/
+        height: calc(100vh - 180px) !important; /*  height:calc(100vh - 54px)!important;*/
     }
 
     .folder-row {
@@ -80,7 +80,7 @@
                     <img src="/Content/images/@img" class="local-img" />
                 </div>
                 <div class="col d-flex justify-content-start align-items-center">
-                    @srv.Name (@srv.SelectedFilesCount @Resources.Setting.OutOf @srv.FilesCount)
+                    @srv.Name <b class="ml-1 mr-1"> @srv.RevitVersionName</b> (@srv.SelectedFilesCount @Resources.Setting.OutOf @srv.FilesCount)
                 </div>
             </div>
             <div class="collapse @(srv.SelectedFilesCount > 0 ? "show" : "") " id="srv_@srv.Id">

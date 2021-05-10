@@ -42,35 +42,41 @@ namespace SharedZone.BLL.Services
 				}).AsNoTracking().ToListAsync();
 		}
 
+		public bool TestService() =>
+			 db.Hours.GetAll().Count() > 0;
+
 		public string TestUpdateServer(int Id)
 		{
-			try
-			{
-				db.RevitVersions.GetAll().Load();
-				var srv = db.RevitServers.GetAll().Where(x => x.Id == Id).FirstOrDefault();
-				if (srv == null)
-					throw new NotFoundException();
-				var _srv = new ServerDTO().Map(srv);
-				_srv.RevitVersionName = srv.RevitVersion.Name;
+			return "OK!!!";
+			//try
+			//{
+			//	db.RevitVersions.GetAll().Load();
+			//	var srv = db.RevitServers.GetAll().Where(x => x.Id == Id).FirstOrDefault();
+			//	if (srv == null)
+			//		throw new NotFoundException();
+			//	var _srv = new ServerDTO().Map(srv);
+			//	_srv.RevitVersionName = srv.RevitVersion.Name;
 
-				var content = GetContent(_srv.Name, _srv.RevitVersionName, "|");
-				var data = GetRevitServerFoldersAndModels(content, _srv, "|");
+			//	var content = GetContent(_srv.Name, _srv.RevitVersionName, "|");
+			//	var data = GetRevitServerFoldersAndModels(content, _srv, "|");
 
-				return "OK!!!";
-			}
-			catch (Exception ex)
-			{
-				return ex.Message;
-			}
+			//	return "OK!!!";
+			//}
+			//catch (Exception ex)
+			//{
+			//	return ex.Message;
+			//}
 		}
 
 
 		public async Task UpdateServerAsync(int Id)
 		{
+			await db.RevitVersions.GetAll().LoadAsync();
 			var srv = await db.RevitServers.GetAsync(Id);
 			if (srv != null)
 			{
 				var _srv = new ServerDTO().Map(srv);
+				_srv.RevitVersionName = srv.RevitVersion.Name;
 				if (srv.IsDirectory)
 					await UpdateDirectory(_srv);
 				else
@@ -105,17 +111,17 @@ namespace SharedZone.BLL.Services
 
 
 
-		private async Task<int> CreateModels(ServerDTO server)
-		{
-			try
-			{
-				return await CreateFiles(server.Files, null);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
+		//private async Task<int> CreateModels(ServerDTO server)
+		//{
+		//	try
+		//	{
+		//		return await CreateFiles(server.Files, null);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		throw ex;
+		//	}
+		//}
 
 
 
@@ -217,6 +223,7 @@ namespace SharedZone.BLL.Services
 
 		private IEnumerable<RevitModelDTO> GetFlatTable(RevitModelDTO folder)
 		{
+			//BTextWriter.WriteLog("");
 			return folder.Files.Concat(folder.Folders);
 		}
 
@@ -330,15 +337,10 @@ namespace SharedZone.BLL.Services
 		{
 			try
 			{
-				var content = GetContent(srv.Name, srv.RevitVersionName, "|");
-				var data = GetRevitServerFoldersAndModels(content, srv, "|");
-				var server = new ServerDTO()
-				{
-					Id = srv.Id,
-					Folders = data.Where(x => x.IsFolder == true),
-					Files = data.Where(x => x.IsFolder == false),
-				};
-				var log = await MergeFilesAsync(server);
+				JObject srvcontent = GetContent(srv.Name, srv.RevitVersionName, "|");
+				srv.Files = GetFiles(srvcontent, srv, "|").ToList();
+				srv.Folders = GetRevitServerFolders(srvcontent, srv, "|").ToList();
+				var log = await MergeFilesAsync(srv);
 				await WriteServerLogAsync(log);
 			}
 			catch (Exception ex)
@@ -347,55 +349,57 @@ namespace SharedZone.BLL.Services
 			}
 		}
 
-		private IEnumerable<RevitModelDTO> GetRevitServerFoldersAndModels(JObject obj, ServerDTO srv, string path)
+		private IEnumerable<RevitModelDTO> GetFiles(JObject content, ServerDTO srv, string folderpath)
 		{
-			try
-			{
-				ICollection<RevitModelDTO> result = new List<RevitModelDTO>();
-
-				foreach (JToken item in obj["Folders"])
-				{
-					string currentPath = path.Equals("|") ? path + item["Name"].ToString() : path + "|" + item["Name"].ToString();
-					string rsnpath = @"RSN://" + srv + @"/" + currentPath.Replace("|", "/").Remove(0, 1);
-					JObject obj2 = GetContent(srv.Name, srv.RevitVersionName, currentPath);
-
-					result.Add(new RevitModelDTO()
-					{
-						ParentName = path,
-						Name = item["Name"].ToString(),
-						Path = rsnpath,
-						RevitServerId = srv.Id,
-						IsFolder = true,
-						Folders = GetRevitServerFoldersAndModels(obj2, srv, currentPath),
-						Files = GetFiles()
-					});
-				}
-
-				return result;
-
-				IEnumerable<RevitModelDTO> GetFiles()
-				{
-					return obj["Models"].Select(x => new RevitModelDTO
-					{
-						RevitServerId = srv.Id,
-						IsFolder = false,
-						Name = x["Name"].ToString(),
-						Path = @"RSN://" + srv + @"/" + path.Replace("|", "/").Remove(0, 1) + "/" + x["Name"].ToString(),
-						ParentName = path
-					});
-				}
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-
+			foreach (JToken x in content["Models"])
+				yield return GetFile(x, srv, folderpath);
 		}
+
+		private IEnumerable<RevitModelDTO> GetRevitServerFolders(JObject content, ServerDTO srv, string path)
+		{
+			foreach (JToken item in content["Folders"])
+			{
+				string currentPath = path.Equals("|") ? path + item["Name"].ToString() : path + "|" + item["Name"].ToString();
+				string rsnpath = @"RSN://" + srv.Name + @"/" + currentPath.Replace("|", "/").Remove(0, 1);
+				var folder = GetServerFolder(item, srv, currentPath, rsnpath);
+
+				JObject subcontent = GetContent(srv.Name, srv.RevitVersionName, currentPath);
+				folder.Files = GetFiles(subcontent, srv, currentPath).ToList();
+				folder.Folders = GetRevitServerFolders(subcontent, srv, currentPath);
+
+				yield return folder;
+			}
+		}
+
+		private RevitModelDTO GetServerFolder(JToken item, ServerDTO srv, string parentpath, string path)
+		{
+			return new RevitModelDTO
+			{
+				ParentName = parentpath,
+				Name = item["Name"].ToString(),
+				Path = path,
+				RevitServerId = srv.Id,
+				IsFolder = true,
+			};
+		}
+
+		private RevitModelDTO GetFile(JToken x, ServerDTO srv, string path)
+		{
+			return new RevitModelDTO
+			{
+				RevitServerId = srv.Id,
+				IsFolder = false,
+				Name = x["Name"].ToString(),
+				Path = @"RSN://" + srv.Name + @"/" + path.Replace("|", "/").Remove(0, 1) + "/" + x["Name"].ToString(),
+				ParentName = path
+			};
+		}
+
+	
 
 
 		private JObject GetContent(string srv, string vers, string currentPath)
 		{
-			//Uri uri = new Uri(string.Format("http://{0}/RevitServerAdminRESTService{1}/AdminRESTService.svc/{2}/Contents", srv, vers, currentPath));
 			Uri uri = new Uri($"http://{srv}/RevitServerAdminRESTService{vers}/AdminRESTService.svc/{currentPath}/Contents");
 			try
 			{

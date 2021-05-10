@@ -49,9 +49,9 @@ namespace SharedZone.RevitSRC
 				{
 					throw fkex;
 				}
-				catch (CommunicationException e)
+				catch (CommunicationException)
 				{
-					throw new ModelCheckerException(e.Message);
+					throw new ModelCheckerCommunicationException();
 				}
 				catch (Exception ex)
 				{

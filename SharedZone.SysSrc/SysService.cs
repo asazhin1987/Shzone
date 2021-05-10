@@ -125,25 +125,8 @@ namespace SharedZone.SysSrc
 		public string TestUpdateServer(int Id) =>
 				UseProxyClientSync(x => x.TestUpdateServer(Id));
 
-		//public IEnumerable<ServerDTO> GetAllDirectories(string mask = "") =>
-		//	UseWebProxyClient(x => x.GetAllDirectories(mask));
+		public bool TestService() =>
+				UseProxyClientSync(x => x.TestService());
 
-			//public IEnumerable<ServerDTO> GetAllServers(string mask = "") =>
-			//	UseWebProxyClient(x => x.GetAllServers(mask));
-
-			//public ServerLogDTO MergeFiles(ServerDTO server) =>
-			//	UseWebProxyClient(x => x.MergeFiles(server));
-
-			//public void UpdateDirectories() =>
-			//	UseWebProxyClient(x => x.UpdateDirectories());
-
-			//public void UpdateRevitServers() =>
-			//	UseWebProxyClient(x => x.UpdateRevitServers());
-
-			//public voidUpdateServer(int Id) =>
-			//	UseWebProxyClient(x => x.UpdateServer(Id));
-
-			//public void WriteServerLog(ServerLogDTO serverLog) =>
-			//	UseWebProxyClient(x => x.WriteServerLog(serverLog));
 	}
 }

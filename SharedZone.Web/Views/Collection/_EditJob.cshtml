@@ -5,11 +5,12 @@
 @{
     string labelclass = "control-label col-md-8  text-primary-green pl-1 pr-1 text-uppercase font-weight-bold";
     string editorclass = "col-md-12 pl-1 pr-1";
+   // var aaa = Model.CollectionId;
 }
 
 
 @using (Ajax.BeginForm(Model.ActionName, "Collection", null
-        , new AjaxOptions() { UpdateTargetId = "jobscontainer", HttpMethod = "Post", LoadingElementId = "locloading" }
+        , new AjaxOptions() { UpdateTargetId = "jobscontainer", HttpMethod = "Post", LoadingElementId = "locloading", OnSuccess = "UpdateResult();" }
         , new { Id = "SaveJobForm" }))
 {
     @Html.HiddenFor(x => x.Id)

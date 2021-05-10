@@ -88,10 +88,12 @@ namespace SharedZone.BLL.Infrastructure
 				kerner.Bind<IRevitSrc>().To<RevitService>().WithConstructorArgument(kerner.Get<IUnitOfWork>());
 				kerner.Bind<ISysSrc>().To<SysService>().WithConstructorArgument(kerner.Get<IUnitOfWork>());
 
-
+				CreateEndpoint(typeof(ISysSrc), kerner.Get<ISysSrc>(), "SharedZoneSysService");
+				if (!kerner.Get<ISysSrc>().TestService())
+					throw new Exception("Database creation error");
 				CreateEndpoint(typeof(IWebSrc), kerner.Get<IWebSrc>(), "SharedZoneWebService");
 				CreateEndpoint(typeof(IRevitSrc), kerner.Get<IRevitSrc>(), "SharedZoneRevitService");
-				CreateEndpoint(typeof(ISysSrc), kerner.Get<ISysSrc>(), "SharedZoneSysService");
+				
 
 
 				OnServicesRunned?.Invoke(this, new ServiceEventArgs("All Services Runned"));
@@ -131,7 +133,7 @@ namespace SharedZone.BLL.Infrastructure
 				await scheduler.Start();
 
 				await RunSchedule<ServerDirectoryExplorer>("ServerAndDirectoryExplorer", "Schedules");
-				Thread.Sleep(1000);
+				//Thread.Sleep(1000);
 				await RunSchedule<CleanerLog>("CleanerLog", "Schedules", 1440);
 
 			}

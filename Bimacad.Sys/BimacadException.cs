@@ -26,6 +26,9 @@ namespace Bimacad.Sys
 	public class NotFoundException : ModelCheckerException { }
 
 	[DataContract]
+	public class ModelCheckerCommunicationException : ModelCheckerException { }
+
+	[DataContract]
 	public class CheckLicense { }
 
 	[DataContract]

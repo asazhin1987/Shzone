@@ -51,6 +51,7 @@ namespace SharedZone.BLL.Services
 			result = result.Where(x =>
 			x.Hour.HourValue < now.Hour
 			|| (x.Hour.HourValue == now.Hour && x.Minute.MinuteValue <= now.Minute));
+			//var aaa = result.ToList();
 			return GetCollections(result);
 		}
 
@@ -71,56 +72,32 @@ namespace SharedZone.BLL.Services
 				RevitVersionId = x.RevitVersionId,
 				Name = x.Name, 
 				ModelsCount = x.RevitModels.Count()
-				//RevitModelsDTO = x.RevitModels.Select(m => new RevitModelDTO()
-				//{
-				//	Id = m.Id,
-				//	//Name = m.Name,
-				//	//Path = m.Path,
-				//}),
-				//RevitJobsDTO = x.RevitJobs.Select(j => new RevitJobDTO()
-				//{
-				//	Id = j.Id,
-				//	//Name = j.Name,
-				//	//Path = j.Path,
-					
-				//}),
-				//NavisJobsDTO = x.NavisJobs.Select(j => new NavisJobDTO()
-				//{
-				//	Id = j.Id,
-				//	//Name = j.Name,
-				//	//Path = j.Path,
-				//}),
-				//IFCJobsDTO = x.IFCJobs.Select(j => new IFCJobDTO()
-				//{
-				//	Id = j.Id,
-				//	//Name = j.Name,
-				//	//Path = j.Path,
-				//})
-			}).ToList();
+			}).AsNoTracking().ToList();
 		}
 
 		public CollectionDTO GetCollection(int Id)
 		{
-			Task<Collection> t = Task.Run(() => db.Collections.GetAsync(Id));
-			var item = t.Result;
+			//Task<Collection> t = Task.Run(() => db.Collections.GetAsync(Id));
+			//var item = t.Result;
+			var item = db.Collections.GetAll().Where(x => x.Id == Id).AsNoTracking().FirstOrDefault();
 			if(item == null)
 				throw new FaultException<NotFound>(new NotFound());
-			//db.RevitJobs.GetWithInclude(x => x.Collection.Equals(item), j => j.Collection);
-			//db.NavisJobs.GetWithInclude(x => x.Collection.Equals(item), j => j.Collection);
-			//db.IFCJobs.GetWithInclude(x => x.Collection.Equals(item), j => j.Collection);
-			db.RevitJobs.GetAll().Where(x => x.CollectionId == Id).Load();
-			db.NavisJobs.GetAll().Where(x => x.CollectionId == Id).Load();
-			db.IFCJobs.GetAll().Where(x => x.CollectionId == Id).Load();
+			var rj = db.RevitJobs.GetAll().Where(x => x.CollectionId == Id).AsNoTracking().ToList();
+			var nj = db.NavisJobs.GetAll().Where(x => x.CollectionId == Id).AsNoTracking().ToList();
+			var ij = db.IFCJobs.GetAll().Where(x => x.CollectionId == Id).AsNoTracking().ToList();
+			var mods = db.RevitModels.GetAll().Where(x => x.Collections.Select(l => l.Id).Contains(Id)).AsNoTracking().ToList();
 
-			//db.RevitModels.GetWithInclude(x => x.Collections.Contains(item), m => m.Collections);
-
-			return (new CollectionDTO()
+			var result =  new CollectionDTO()
 			{
-				RevitModelsDTO = item.RevitModels.Select(x => new RevitModelDTO().Map(x)), 
-				IFCJobsDTO = item.IFCJobs.Select(x => new IFCJobDTO().Map(x)),
-				NavisJobsDTO = item.NavisJobs.Select(x => new NavisJobDTO().Map(x)),
-				RevitJobsDTO = item.RevitJobs.Select(x => new RevitJobDTO().Map(x)),
-			}).Map(item);
+				RevitModelsDTO = mods.Select(x => new RevitModelDTO().Map(x)), 
+				IFCJobsDTO = ij.Select(x => new IFCJobDTO().Map(x)),
+				NavisJobsDTO = nj.Select(x => new NavisJobDTO().Map(x)),
+				RevitJobsDTO = rj.Select(x => new RevitJobDTO().Map(x)),
+			}.Map(item);
+			//var aaa = result;
+
+			return result;
+
 		}
 
 		private IQueryable<Collection> GetCollections(IQueryable<Collection> qwuery, string clientName, string version)
@@ -131,7 +108,7 @@ namespace SharedZone.BLL.Services
 				return new List<Collection>().AsQueryable();
 
 			return qwuery.Where(x => x.ClientId == cliemt.Id
-			&& (x.RevitVersionId == _version.Id || (x.RevitVersionId == 1 && x.RevitModels.Select(m => m.RevitServer.RevitVersionId == _version.Id).Count() > 0)));
+			&& (x.RevitVersionId == _version.Id || (x.RevitVersion.IsDefault && x.RevitModels.Select(m => m.RevitServer.RevitVersionId == _version.Id).Count() > 0)));
 		}
 
 		public int CreateJobLaunch(JobLaunchDTO launch)

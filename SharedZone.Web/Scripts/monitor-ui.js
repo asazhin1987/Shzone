@@ -1,7 +1,8 @@
 ﻿
 
 function UpdateResult() {
-    SubmitForm('UpdateForm');
+    $("#UpdateForm").submit();
+    //SubmitForm('UpdateForm');
 }
 
 

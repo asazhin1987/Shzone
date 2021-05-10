@@ -21,9 +21,7 @@
         });
 
         $('.viewbtn').click(function (e) {
-
             $("#viewType").val(e.target.id);
-            //UpdateResult();
         });
     });
 
@@ -44,7 +42,7 @@
                          , new AjaxOptions() { UpdateTargetId = "result", HttpMethod = "Get", LoadingElementId = "loading" }
                          , new { Id = $"UpdateForm" }))
 {
-    <button type="submit" class="d-none"></button>
+    @*<button type="submit" class="d-none"></button>*@
 }
 
 <div class="col d-flex flex-column  p-0 ">

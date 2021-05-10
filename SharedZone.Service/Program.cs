@@ -40,9 +40,9 @@ namespace SharedZone.Service
 			service.OnScheduleFailure += OnServiceFailureLog;
 
 			service.Migrate();
-			Thread.Sleep(500);
+			//Thread.Sleep(10000);
 			service.RunServices();
-			Thread.Sleep(500);
+			//Thread.Sleep(500);
 			await service.RunSchedule();
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.WriteLine("Press any key to hidde console");

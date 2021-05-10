@@ -113,7 +113,7 @@ namespace SharedZone.BLL.Services
 			await db.NavisJobs.GetAll().Where(x => x.CollectionId == Id).LoadAsync();
 			await db.IFCJobs.GetAll().Where(x => x.CollectionId == Id).LoadAsync();
 			//await db.Clients.GetAll().LoadAsync();
-			var files = await GetFilesAsync(Id);
+			//var files = await GetFilesAsync(Id);
 			return Mapper.Map(new CollectionDTO()
 			{
 				HourValue = coll.Hour.HourValue,
@@ -389,10 +389,11 @@ namespace SharedZone.BLL.Services
 		public async Task<IEnumerable<ServerDTO>> GetFilesAsync(int collectionId)
 		{
 			return await db.RevitModels.GetAll().Where(x => x.Collections.Select(s => s.Id).Contains(collectionId))
-				.GroupBy(gr => new { Id= gr.RevitServerId, gr.RevitServer.Name, gr.RevitServer.IsDirectory }).Select(x => new ServerDTO()
+				.GroupBy(gr => new { Id= gr.RevitServerId, gr.RevitServer.Name, gr.RevitServer.IsDirectory, Version = gr.RevitServer.RevitVersion.Name }).Select(x => new ServerDTO()
 				{
 					Id = x.Key.Id,
 					Name = x.Key.Name,
+					RevitVersionName = x.Key.Version,
 					IsDirectory = x.Key.IsDirectory,
 					Files = x.Select(f => new RevitModelDTO()
 					{
@@ -740,7 +741,7 @@ namespace SharedZone.BLL.Services
 
 		public async Task<IEnumerable<JobLaunchDTO>> GetMonthJobLaunchesAsync()
 		{
-			return await GetJobLaunchesAsync(DateTime.Now.Date.AddMonths(-1), DateTime.Now.Date);
+			return await GetJobLaunchesAsync(DateTime.Now.Date.AddMonths(-1), DateTime.Now.Date.AddDays(1));
 		}
 
 		public async Task<IEnumerable<JobLaunchDTO>> GetQuarterJobLaunchesAsync()
@@ -766,7 +767,7 @@ namespace SharedZone.BLL.Services
 				Message = x.Message,
 				StartDateTime = x.StartDateTime,
 				EndDateTime = x.EndDateTime
-			}).AsNoTracking().ToListAsync();
+			}).OrderByDescending(o => o.Odate).AsNoTracking().ToListAsync();
 		}
 
 		public async Task<JobLaunchDTO> GetJobLaunchAsync(int Id)

@@ -42,6 +42,9 @@ namespace SharedZone.ISysService
 		[OperationContract]
 		string TestUpdateServer(int Id);
 
+		[OperationContract]
+		bool TestService();
+
 		////sync
 		//[OperationContract]
 		//IEnumerable<ServerDTO> GetAllDirectories(string mask = "");

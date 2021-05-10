@@ -120,6 +120,9 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Bim Manager</value>
   </data>
+  <data name="CommunicationExceptionMsg" xml:space="preserve">
+    <value>Не удалось подключиться к сервису. Добавьте подключение к сервису или проверьте состояние сети.</value>
+  </data>
   <data name="ConfirmRemove" xml:space="preserve">
     <value>Подтвердите удаление</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="UnknownTypeMsg" xml:space="preserve">
     <value>Неизвестный тип</value>
+  </data>
+  <data name="ZeroClientsCount" xml:space="preserve">
+    <value>Нет станций для выгрузки. Запустите плагин Bim Manager для Revit на ПК</value>
   </data>
 </root>

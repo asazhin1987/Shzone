@@ -100,7 +100,7 @@ namespace SharedZone.Client.Applications
 				{
 					return Src.TakeLicense(Environment.MachineName, Environment.UserName);
 				}
-				
+
 			}
 			catch (WrongKeyException)
 			{
@@ -115,6 +115,11 @@ namespace SharedZone.Client.Applications
 			catch (ZeroQntException)
 			{
 				Inform(Resources.Global.LicenseZeroQnt);
+				return false;
+			}
+			catch (ModelCheckerCommunicationException)
+			{
+				Inform(Resources.Global.CommunicationExceptionMsg);
 				return false;
 			}
 			catch (Exception ex)

@@ -77,7 +77,7 @@
             <img src="/Content/images/@(srv.IsDirectory ? "directory.png" : "server.png")" class="local-img" />
         </div>
         <div class="col p-0" >
-            @srv.Name (@srv.Files.Count())
+            @srv.Name <b>@srv.RevitVersionName</b> (@srv.Files.Count())
         </div>
     </div>
     <div class="collapse" id="files_@srv.Id">
@@ -97,7 +97,7 @@
 
             </div>
             <div class="col p-0">
-                @file.Path.Replace(srcname, "..")
+                @file.Path.Replace(srcname, "..").Replace("RSN://", "")
             </div>
         </div>
     }

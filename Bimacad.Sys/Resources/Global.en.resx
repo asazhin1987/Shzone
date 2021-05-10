@@ -120,6 +120,9 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Bim Manager</value>
   </data>
+  <data name="CommunicationExceptionMsg" xml:space="preserve">
+    <value>Failed to connect to the service. Add a service connection or check the network status.</value>
+  </data>
   <data name="ConfirmRemove" xml:space="preserve">
     <value>Please confirm deletion</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="UnknownTypeMsg" xml:space="preserve">
     <value>Unknown type</value>
+  </data>
+  <data name="ZeroClientsCount" xml:space="preserve">
+    <value>There are no unloading stations. Launch Bim Manager Plugin for Revit on PC</value>
   </data>
 </root>

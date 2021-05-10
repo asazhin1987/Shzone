@@ -217,6 +217,9 @@ namespace SharedZone.Web.Controllers
 		[HttpGet]
 		public async Task<PartialViewResult> EditParams(int Id)
 		{
+			var clients = await src.GetAllClientsAsync();
+			if (clients.Count() == 0)
+				throw new Exception(Resources.Global.ZeroClientsCount);
 			return PartialView("_EditParams",
 				new EditCollectionViewModel(await src.GetCollectionAsync(Id)));
 		}
@@ -292,28 +295,28 @@ namespace SharedZone.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<PartialViewResult> EditJob(int Id, string typeName)
+		public async Task<PartialViewResult> EditJob(int Id, string TypeName)
 		{
-			if (typeName == nameof(RevitJobViewModel))
+			if (TypeName == nameof(RevitJobViewModel))
 				return await EditRevitJob(Id);
-			else if (typeName == nameof(NavisJobViewModel))
+			else if (TypeName == nameof(NavisJobViewModel))
 				return await EditNavisJob(Id);
-			else if (typeName == nameof(IFCJobViewModel))
+			else if (TypeName == nameof(IFCJobViewModel))
 				return await EditIFCJob(Id);
-			throw new Exception($"{Resources.Global.UnknownTypeMsg}: {typeName}");
+			throw new Exception($"{Resources.Global.UnknownTypeMsg}: {TypeName}");
 		}
 
-		[HttpPost]
-		public async Task<PartialViewResult> DeleteJob(int Id, int collectionId, string typeName)
+		//[HttpPost]
+		public async Task<PartialViewResult> DeleteJob(int Id, int collectionId, string TypeName)
 		{
-			if (typeName == nameof(RevitJobViewModel))
+			if (TypeName == nameof(RevitJobViewModel))
 				await DeleteRevitJob(Id);
-			else if (typeName == nameof(NavisJobViewModel))
+			else if (TypeName == nameof(NavisJobViewModel))
 				await DeleteNavisJob(Id);
-			else if (typeName == nameof(IFCJobViewModel))
+			else if (TypeName == nameof(IFCJobViewModel))
 				await DeleteIFCJob(Id);
 			else 
-				throw new Exception($"{Resources.Global.UnknownTypeMsg}: {typeName}");
+				throw new Exception($"{Resources.Global.UnknownTypeMsg}: {TypeName}");
 			return PartialView("_SettingJobs", new JobsViewModel(await src.GetCollectionAsync(collectionId)));
 		}
 

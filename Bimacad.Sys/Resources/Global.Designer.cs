@@ -68,11 +68,23 @@ namespace Resources {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Подтвердите удаление.
-        /// </summary>
-        public static string ConfirmRemove {
+
+
+		/// <summary>
+		///   Ищет локализованную строку, похожую на Не удалось подключиться к сервису. Добавьте подключение к сервису или проверьте состояние сети..
+		/// </summary>
+		public static string CommunicationExceptionMsg
+		{
+			get
+			{
+				return ResourceManager.GetString("CommunicationExceptionMsg", resourceCulture);
+			}
+		}
+
+		/// <summary>
+		///   Ищет локализованную строку, похожую на Подтвердите удаление.
+		/// </summary>
+		public static string ConfirmRemove {
             get {
                 return ResourceManager.GetString("ConfirmRemove", resourceCulture);
             }
@@ -212,5 +224,16 @@ namespace Resources {
                 return ResourceManager.GetString("UnknownTypeMsg", resourceCulture);
             }
         }
-    }
+
+		/// <summary>
+		///   Ищет локализованную строку, похожую на Нет станций для выгрузки. Запустите плагин Bim Manager для Revit на ПК.
+		/// </summary>
+		public static string ZeroClientsCount
+		{
+			get
+			{
+				return ResourceManager.GetString("ZeroClientsCount", resourceCulture);
+			}
+		}
+	}
 }

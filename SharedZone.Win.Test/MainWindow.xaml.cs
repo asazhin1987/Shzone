@@ -5,6 +5,7 @@ using SharedZone.DTO.Infrastructure;
 using System.Windows;
 using SharedZone.Client.Applications;
 using Bimacad.Sys;
+using System.ServiceModel;
 
 namespace SharedZone.Win.Test
 {
@@ -24,9 +25,22 @@ namespace SharedZone.Win.Test
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			client = SettingApplicationFactory.GetInstance();
-			client.RunConnector("2019");
-			client.ShowSettingsWindows();
+			try
+			{
+				client = SettingApplicationFactory.GetInstance();
+				client.RunConnector("2019");
+			
+				client.ShowSettingsWindows();
+			}
+			catch (ModelCheckerException cex)
+			{
+				throw new Exception($"Не удалось создать канал связи.");
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+			
 
 		}
 

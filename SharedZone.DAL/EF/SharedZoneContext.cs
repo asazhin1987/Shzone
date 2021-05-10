@@ -40,6 +40,7 @@ namespace SharedZone.DAL.EF
 			Database.SetInitializer(new DbInitializer());
 		}
 
+		//для тестов
 		public SharedZoneContext(DbConnection conn) : base(conn, true)
 		{
 			Configuration.LazyLoadingEnabled = false;
@@ -141,6 +142,7 @@ namespace SharedZone.DAL.EF
 				db.WeekDays.Add(new WeekDay() { Id = 7, Name = "Su" });
 
 				db.SaveChanges();
+
 			}
 		}
 	}
