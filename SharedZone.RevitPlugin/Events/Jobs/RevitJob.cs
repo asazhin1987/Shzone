@@ -68,7 +68,8 @@ namespace SharedZone.RevitPlugin.Events
 		#region
 		private List<string> GetExceptionViews(string sArr)
 		{
-			return sArr.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+			return sArr == null || sArr.Equals(string.Empty) ? new List<string>() :
+				sArr.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 		}
 
 		private void TruncateView(Document doc, List<string> ExceptionViews)
@@ -112,7 +113,7 @@ namespace SharedZone.RevitPlugin.Events
 
 						}
 					}
-					tran.Commit();
+					tran.Commit(tran.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
 				}
 
 			}
@@ -145,7 +146,7 @@ namespace SharedZone.RevitPlugin.Events
 						{
 							link.AttachmentType = AttachmentType.Attachment;
 						}
-						_ = t.Commit();
+						_ = t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
 					}
 
 					using (Transaction t = new Transaction(doc, "RelativeLinks"))
@@ -165,7 +166,7 @@ namespace SharedZone.RevitPlugin.Events
 
 						}
 
-						t.Commit();
+						t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
 					}
 				}
 
@@ -281,7 +282,7 @@ namespace SharedZone.RevitPlugin.Events
 						{
 							transaction.Start();
 							doc.Delete(hashSet);
-							transaction.Commit();
+							transaction.Commit(transaction.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
 							continue;
 						}
 					}
@@ -313,7 +314,7 @@ namespace SharedZone.RevitPlugin.Events
 					}
 				}
 				doc.Delete(ids);
-				t.Commit();
+				t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
 			}
 		}
 		#endregion

@@ -11,7 +11,7 @@ namespace SharedZone.Web.Models
 
 		public LogsDateViewModel(IEnumerable<JobLaunchDTO> data)
 		{
-			Data = data.GroupBy(g => new WeekDayViewModel(g.Odate.Date)).OrderBy(o => o.Key.Date) ;
+			Data = data.GroupBy(g => new WeekDayViewModel(g.Odate.Date)).OrderByDescending(o => o.Key.Date) ;
 		}
 	}
 }

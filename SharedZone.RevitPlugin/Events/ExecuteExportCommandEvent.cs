@@ -40,6 +40,7 @@ namespace SharedZone.RevitPlugin.Events
 
 			foreach (var model in Collection.RevitModelsDTO)
 			{
+
 				try
 				{
 					ModelPath modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(model.Path);
@@ -47,6 +48,7 @@ namespace SharedZone.RevitPlugin.Events
 					AppendLog($"Get Open Options");
 					using (OpenOptions options = GetOpenOptions(model.Path))
 					{
+						Document doc = null;
 						try
 						{
 							AppendLog($"Set WorksetConfiguration");
@@ -55,7 +57,7 @@ namespace SharedZone.RevitPlugin.Events
 								options.SetOpenWorksetsConfiguration(workset);
 							}
 							AppendLog($"Begin Open File");
-							using (Document doc = OpenDocument(modelPath, options))
+							using (doc = OpenDocument(modelPath, options))
 							{
 								AppendLog($"End Open File");
 								AppendLog($"Begin Navis Jobs. Count: {Collection.NavisJobsDTO.Count()}");
@@ -74,8 +76,8 @@ namespace SharedZone.RevitPlugin.Events
 								AppendLog($"Document begin close");
 								doc.Close(false);
 								AppendLog($"Document closed");
-						}
 							}
+						}
 						catch (Exception ex)
 						{
 							throw ex;
@@ -83,6 +85,7 @@ namespace SharedZone.RevitPlugin.Events
 						finally
 						{
 							options.Dispose();
+							doc?.Close(false);
 						}
 					}
 				}
@@ -91,10 +94,11 @@ namespace SharedZone.RevitPlugin.Events
 					log.Append($"EXCEPTION: {ex.Message}");
 					Launch.Success = false;
 					Launch.Message = log.ToString();
-					
+
 					continue;
 
 				}
+				
 			}
 			app.Application.FailuresProcessing -= Application_FailuresProcessing;
 			app.DialogBoxShowing -= App_DialogBoxShowing;
@@ -133,7 +137,7 @@ namespace SharedZone.RevitPlugin.Events
 
 			void AppendLog(string msg)
 			{
-				log.Append($"\r{DateTime.Now}\t{msg}");
+				log.Append($"\r\n{DateTime.Now}\t{msg}");
 			}
 		}
 

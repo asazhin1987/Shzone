@@ -42,11 +42,12 @@ namespace SharedZone.BLL.Services
 		{
 			int dayId = DateTime.Now.GetWeekDayId();
 			var now = DateTime.Now;
+			var today = DateTime.Today;
 			var result = GetCollections(db.Collections.GetAll(), clientName, version);
 			//фильтр по дню недели
 			result = result.Where(x => x.WeekDays.Select(d => d.Id).Contains(dayId));
 			//далее - по логам
-			result = result.Where(x => x.JobLaunches.Where(l => l.HourId == x.HourId && l.MinuteId == x.MinuteId).Count() == 0);
+			result = result.Where(x => x.JobLaunches.Where(l => l.HourId == x.HourId && l.MinuteId == x.MinuteId && l.Odate >= today).Count() == 0);
 			//теперь по времени
 			result = result.Where(x =>
 			x.Hour.HourValue < now.Hour

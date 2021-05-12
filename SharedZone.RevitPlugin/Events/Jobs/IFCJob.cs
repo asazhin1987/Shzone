@@ -17,7 +17,7 @@ namespace SharedZone.RevitPlugin.Events
 				{
 					IFCExportOptions options = GetOptions(job, doc);
 					doc.Export(job.Path, name, options);
-					t.Commit();
+					t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
 				}
 				catch (Exception ex)
 				{
