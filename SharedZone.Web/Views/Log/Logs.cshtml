@@ -1,0 +1,72 @@
+﻿
+@using SharedZone.Web.Models;
+
+@model LogsDateViewModel
+
+<style>
+    .log-row span{
+        cursor:pointer;
+    }
+
+</style>
+
+<script>
+    $(function () {
+        $('.log-row').click(function (e) {
+          
+            $.ajax({
+                type: 'GET',
+                url: 'GetLog',
+                data: 'Id=' + e.currentTarget.id,
+                beforeSend: function () {
+                    $("#locloading").show();
+                    ShowModalRight();
+                },
+                success: function (data) {
+                    $('#rightdialog').html(data);
+                    $("#locloading").hide();
+                }
+            })
+        });
+    });
+
+</script>
+   
+    <div class="container bg-white">
+        <div class="text-light-green" style="font-size:20pt;height:60px;">
+            @Resources.Site.Log
+        </div>
+        @foreach (var date in Model.Data)
+        {
+        <h4 class="bg-light p-2">@date.Key.ShortName @date.Key.Date.ToShortDateString()</h4>
+            foreach (var log in date)
+            {
+                <span class="d-flex flex-row t-row log-row" id="@log.Id">
+                    <span class="fix-w-32 p-2 text-center">
+                        @if (log.Success)
+                        {
+                        <span class="text-light-green">&#x2714;</span>
+                        }
+                        else if (log.Success == false && log.IsAtWork == false)
+                        {
+                        <span class="text-danger">&#x2716;</span>
+                        }
+                    </span>
+                    <span class="col max-w-280 p-2">
+                        @($"{Resources.Setting.Id}: {log.CollectionId} - {log.CollectionName}")
+                    </span>
+                    <span class="col-3 col-xl-2 p-2">
+                        @log.ClientName
+                    </span>
+                    <span class="col-2 p-2">
+                        @(log.StartDateTime?.ToShortTimeString())
+                    </span>
+                    <span class="col-2 p-2">
+                        @(log.EndDateTime?.ToShortTimeString())
+                    </span>
+                    
+                </span>
+                
+            }
+        }
+    </div>

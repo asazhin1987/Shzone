@@ -1,0 +1,22 @@
+﻿@using SharedZone.DTO
+
+@model JobLaunchDTO
+
+
+
+    <div class="p-2">
+        <p class="text-light-green m-0">@Resources.Setting.Id: @Html.DisplayFor(x => x.CollectionId)</p>
+        <p class="border-bottom border-dark-green pb-2 m-0 ">@Html.DisplayFor(x => x.CollectionName)</p>
+        <p class="m-0">@Resources.Setting.LogTime: @Model.Odate.ToShortTimeString()</p>
+        <p class="m-0">@Resources.Setting.BeginTime: @(Model.StartDateTime?.ToShortTimeString())</p>
+        <p class="m-0border-bottom border-dark-green pb-2 ">@Resources.Setting.EndTime: @(Model.EndDateTime?.ToShortTimeString() ?? "-")</p>
+        @if (Model.Success)
+        {
+            <p class="m-0">@Resources.Setting.Result: @Resources.Setting.Success</p>
+        }
+        else
+        {
+            <p class="m-0">@Resources.Setting.Result:</p>  
+            <p>@Model.Message</p>
+        }
+    </div>
