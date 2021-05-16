@@ -57,26 +57,22 @@ namespace SharedZone.RevitPlugin.Events
 								options.SetOpenWorksetsConfiguration(workset);
 							}
 							AppendLog($"Begin Open File");
-							using (doc = OpenDocument(modelPath, options))
-							{
-								AppendLog($"End Open File");
-								AppendLog($"Begin Navis Jobs. Count: {Collection.NavisJobsDTO.Count()}");
-								EvecuteJobs(Collection.NavisJobsDTO, doc, model);
-								AppendLog($"End Navis Jobs");
-								AppendLog($"Begin IFC Jobs. Count: {Collection.IFCJobsDTO.Count()}");
-								EvecuteJobs(Collection.IFCJobsDTO, doc, model);
-								AppendLog($"End IFC Jobs");
-								AppendLog($"Begin Revit Jobs. Count: {Collection.RevitJobsDTO.Count()}");
-								EvecuteJobs(Collection.RevitJobsDTO, doc, model);
-								AppendLog($"End Revit Jobs");
+							doc = OpenDocument(modelPath, options);
 
-								if (!doc.IsDetached)
-									Synchronization(doc);
+							AppendLog($"End Open File");
+							AppendLog($"Begin Navis Jobs. Count: {Collection.NavisJobsDTO.Count()}");
+							EvecuteJobs(Collection.NavisJobsDTO, doc, model);
+							AppendLog($"End Navis Jobs");
+							AppendLog($"Begin IFC Jobs. Count: {Collection.IFCJobsDTO.Count()}");
+							EvecuteJobs(Collection.IFCJobsDTO, doc, model);
+							AppendLog($"End IFC Jobs");
+							AppendLog($"Begin Revit Jobs. Count: {Collection.RevitJobsDTO.Count()}");
+							EvecuteJobs(Collection.RevitJobsDTO, doc, model);
+							AppendLog($"End Revit Jobs");
 
-								AppendLog($"Document begin close");
-								doc.Close(false);
-								AppendLog($"Document closed");
-							}
+							if (!doc.IsDetached)
+								Synchronization(doc);
+
 						}
 						catch (Exception ex)
 						{
@@ -84,8 +80,16 @@ namespace SharedZone.RevitPlugin.Events
 						}
 						finally
 						{
-							options.Dispose();
-							doc?.Close(false);
+							try
+							{
+								if (doc != null)
+								{
+									AppendLog($"Document begin close");
+									doc?.Close(false);
+									AppendLog($"Document closed");
+								}
+							}
+							catch { }
 						}
 					}
 				}
@@ -94,9 +98,6 @@ namespace SharedZone.RevitPlugin.Events
 					log.Append($"EXCEPTION: {ex.Message}");
 					Launch.Success = false;
 					Launch.Message = log.ToString();
-
-					continue;
-
 				}
 				
 			}
@@ -116,7 +117,7 @@ namespace SharedZone.RevitPlugin.Events
 					CheckAndCreateFolder(job.Path);
 					try
 					{
-						DeleteOldFile(Path.Combine(file.Name));
+						//DeleteOldFile(Path.Combine(job.Path, file.Name));
 						if (job is RevitJobDTO rj)
 							Export(doc, rj, file.Name);
 						else if (job is NavisJobDTO nj)
@@ -152,7 +153,8 @@ namespace SharedZone.RevitPlugin.Events
 				CheckedOutElements = true,
 				UserWorksets = true
 			});
-			doc.SynchronizeWithCentral(new TransactWithCentralOptions(), o);
+			TransactWithCentralOptions to = new TransactWithCentralOptions();
+			doc.SynchronizeWithCentral(to, o);
 		}
 
 		private OpenOptions GetOpenOptions(string VisiblePath)
@@ -221,28 +223,42 @@ namespace SharedZone.RevitPlugin.Events
 				if (fmas.Count == 0)
 				{
 					e.SetProcessingResult(FailureProcessingResult.Continue);
-					return;
 				}
 				else
 				{
-					foreach (FailureMessageAccessor fma in fmas)
+					try
 					{
-						try
-						{
-							fA.DeleteWarning(fma);
-						}
-						catch
-						{
-							fA.ResolveFailure(fma);
-						}
+						fA.DeleteAllWarnings();
 					}
-					e.SetProcessingResult(FailureProcessingResult.ProceedWithCommit);
-					return;
+					catch (Exception ex)
+					{
+
+					}
+					finally
+					{
+						e.SetProcessingResult(FailureProcessingResult.ProceedWithCommit);
+					}
+					
+					//foreach (FailureMessageAccessor fma in fmas)
+					//{
+					//	try
+					//	{
+					//		fA.DeleteWarning(fma);
+					//	}
+					//	catch (Exception ex)
+					//	{
+					//		fA.ResolveFailure(fma);
+					//	}
+					//	finally
+					//	{
+					//		e.SetProcessingResult(FailureProcessingResult.Continue);
+					//	}
+					//}
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
-				
+
 			}
 		}
 

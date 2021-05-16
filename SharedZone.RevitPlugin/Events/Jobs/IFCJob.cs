@@ -15,9 +15,11 @@ namespace SharedZone.RevitPlugin.Events
 			{
 				try
 				{
+					t.Start();
+					t.SetFailureHandlingOptions(t.GetFailureHandlingOptions().SetForcedModalHandling(false).SetDelayedMiniWarnings(false));
 					IFCExportOptions options = GetOptions(job, doc);
-					doc.Export(job.Path, name, options);
-					t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
+					doc.Export(job.Path, name.Replace(".rvt", ""), options);
+					t.Commit();
 				}
 				catch (Exception ex)
 				{

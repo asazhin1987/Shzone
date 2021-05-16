@@ -15,7 +15,7 @@ namespace SharedZone.RevitPlugin.Events
 			{
 				try
 				{
-					doc.Export(job.Path, name, opt);
+					doc.Export(job.Path, name.Replace(".rvt", ""), opt);
 				}
 				catch (Exception ex)
 				{
@@ -36,7 +36,7 @@ namespace SharedZone.RevitPlugin.Events
 				FindMissingMaterials = job.TransformConstructionElements,
 				DivideFileIntoLevels = job.DevideFiles,
 				ExportRoomGeometry = job.ExportGeometryRoom,
-				Coordinates = job.NavisCoordinateId == 1 ? NavisworksCoordinates.Shared : NavisworksCoordinates.Internal,
+				Coordinates = job.NavisCoordinateId == 1 ? NavisworksCoordinates.Shared : NavisworksCoordinates.Internal, 
 			};
 			optnwc.Parameters = GetNavisworksParameters();
 			SetViewId();

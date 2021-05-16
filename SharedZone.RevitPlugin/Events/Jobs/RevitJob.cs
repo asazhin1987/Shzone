@@ -94,9 +94,10 @@ namespace SharedZone.RevitPlugin.Events
 				}
 
 				//create 3d view
-				using (Transaction tran = new Transaction(doc, "NewView3D - BimacadMonitor"))
+				using (Transaction t = new Transaction(doc, "NewView3D - BimacadMonitor"))
 				{
-					tran.Start();
+					t.Start();
+					t.SetFailureHandlingOptions(t.GetFailureHandlingOptions().SetForcedModalHandling(false).SetDelayedMiniWarnings(false));
 					using (FilteredElementCollector col = new FilteredElementCollector(doc))
 					{
 						List<Element> listvt = col.OfClass(typeof(ViewFamilyType)).ToElements().ToList();
@@ -113,7 +114,7 @@ namespace SharedZone.RevitPlugin.Events
 
 						}
 					}
-					tran.Commit(tran.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
+					t.Commit();
 				}
 
 			}
@@ -141,18 +142,18 @@ namespace SharedZone.RevitPlugin.Events
 					using (Transaction t = new Transaction(doc, "PinLinks"))
 					{
 						t.Start();
-
+						t.SetFailureHandlingOptions(t.GetFailureHandlingOptions().SetForcedModalHandling(false).SetDelayedMiniWarnings(false));
 						foreach (RevitLinkType link in linksToPin)
 						{
 							link.AttachmentType = AttachmentType.Attachment;
 						}
-						_ = t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
+						_ = t.Commit();
 					}
 
 					using (Transaction t = new Transaction(doc, "RelativeLinks"))
 					{
 						t.Start();
-
+						t.SetFailureHandlingOptions(t.GetFailureHandlingOptions().SetForcedModalHandling(false).SetDelayedMiniWarnings(false));
 						foreach (RevitLinkType link in linksToPin)
 						{
 							try
@@ -166,7 +167,7 @@ namespace SharedZone.RevitPlugin.Events
 
 						}
 
-						t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
+						t.Commit();
 					}
 				}
 
@@ -278,11 +279,12 @@ namespace SharedZone.RevitPlugin.Events
 					if (hashSet.Count != num && hashSet.Count != 0)
 					{
 						num = hashSet.Count;
-						using (Transaction transaction = new Transaction(doc, "purge unused"))
+						using (Transaction t = new Transaction(doc, "purge unused"))
 						{
-							transaction.Start();
+							t.Start();
+							t.SetFailureHandlingOptions(t.GetFailureHandlingOptions().SetForcedModalHandling(false).SetDelayedMiniWarnings(false));
 							doc.Delete(hashSet);
-							transaction.Commit(transaction.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
+							t.Commit();
 							continue;
 						}
 					}
@@ -300,6 +302,7 @@ namespace SharedZone.RevitPlugin.Events
 			using (Transaction t = new Transaction(doc, transactionName))
 			{
 				t.Start();
+				t.SetFailureHandlingOptions(t.GetFailureHandlingOptions().SetForcedModalHandling(false).SetDelayedMiniWarnings(false));
 				List<ElementId> ids = list.Select(x => x.Id).ToList();
 				foreach (ElementId id in ids)
 				{
@@ -314,7 +317,7 @@ namespace SharedZone.RevitPlugin.Events
 					}
 				}
 				doc.Delete(ids);
-				t.Commit(t.GetFailureHandlingOptions().SetDelayedMiniWarnings(true));
+				t.Commit();
 			}
 		}
 		#endregion
