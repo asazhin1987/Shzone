@@ -61,7 +61,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на + Создать.
+        ///   Ищет локализованную строку, похожую на Создать.
         /// </summary>
         public static string Add {
             get {

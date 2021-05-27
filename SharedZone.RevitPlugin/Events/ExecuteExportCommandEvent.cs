@@ -52,10 +52,12 @@ namespace SharedZone.RevitPlugin.Events
 						try
 						{
 							AppendLog($"Set WorksetConfiguration");
-							using (WorksetConfiguration workset = GetWorksetConfiguration(modelPath))
+							if (IsWorkshared(model.Path))
 							{
+								WorksetConfiguration workset = GetWorksetConfiguration(modelPath);
 								options.SetOpenWorksetsConfiguration(workset);
 							}
+							
 							AppendLog($"Begin Open File");
 							doc = OpenDocument(modelPath, options);
 
@@ -161,7 +163,7 @@ namespace SharedZone.RevitPlugin.Events
 		{
 			OpenOptions options = new OpenOptions();
 
-			if (IsWorkshared())
+			if (IsWorkshared(VisiblePath))
 			{
 				options.DetachFromCentralOption = Collection.Detach ?
 					DetachFromCentralOption.DetachAndPreserveWorksets :
@@ -170,16 +172,18 @@ namespace SharedZone.RevitPlugin.Events
 				options.AllowOpeningLocalByWrongUser = true;
 			}
 
-			bool IsWorkshared()
-			{
-
-				if (VisiblePath.Contains("RSN://"))
-					return true;
-				BasicFileInfo basicFileInfo = BasicFileInfo.Extract(VisiblePath);
-				return basicFileInfo.IsWorkshared;
-			}
+			
 
 			return options;
+		}
+
+		bool IsWorkshared(string VisiblePath)
+		{
+
+			if (VisiblePath.Contains("RSN://"))
+				return true;
+			BasicFileInfo basicFileInfo = BasicFileInfo.Extract(VisiblePath);
+			return basicFileInfo.IsWorkshared;
 		}
 
 		public void CheckAndCreateFolder(string ExportFolder)
@@ -288,22 +292,38 @@ namespace SharedZone.RevitPlugin.Events
 
 		private WorksetConfiguration GetWorksetConfiguration(ModelPath path)
 		{
-			WorksetConfiguration workset = new WorksetConfiguration(Collection.Worksets ?
-					WorksetConfigurationOption.CloseAllWorksets :
-					WorksetConfigurationOption.OpenAllWorksets);
+			WorksetConfiguration workset = new WorksetConfiguration(
+				Collection.Worksets ? WorksetConfigurationOption.OpenAllWorksets : WorksetConfigurationOption.CloseAllWorksets);
 		
 			try
 			{
 				IEnumerable<WorksetPreview> list = WorksharingUtils.GetUserWorksetInfo(path);
-				IEnumerable<string> filters = Collection.ExceptionWorksets.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-				IList<WorksetId> worksetIds = list.Where(x => filters.Contains(x.Name)).Select(x => x.Id).ToList();
+
+				IEnumerable<string> filters = Collection.ExceptionWorksets == null || Collection.ExceptionWorksets.Equals(string.Empty) ? new List<string>() :
+					Collection.ExceptionWorksets.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+
+				IList<WorksetId> worksetExceptionIds = list.Where(x => filters.Contains(x.Name)).Select(x => x.Id).ToList();
+				IList<WorksetId> worksetIds = list.Where(x => filters.Contains(x.Name) == false).Select(x => x.Id).ToList();
+
 				if (worksetIds.Count() > 0)
 				{
+					//открываем или закрываем все раб наборы
 					if (Collection.Worksets)
 						workset.Open(worksetIds);
 					else
 						workset.Close(worksetIds);
 				}
+
+				//открываем или закрываем исключения
+				if (worksetExceptionIds.Count() > 0)
+				{
+					if (Collection.Worksets)
+						workset.Close(worksetExceptionIds);
+					else
+						workset.Open(worksetExceptionIds);
+				}
+
 			}
 			catch(Exception ex)
 			{

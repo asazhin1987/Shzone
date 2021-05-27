@@ -348,6 +348,9 @@
   <data name="Shared" xml:space="preserve">
     <value>Shared</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
   <data name="Su" xml:space="preserve">
     <value>Su</value>
   </data>

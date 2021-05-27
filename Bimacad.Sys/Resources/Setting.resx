@@ -348,6 +348,9 @@
   <data name="Shared" xml:space="preserve">
     <value>Внешние</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
   <data name="Su" xml:space="preserve">
     <value>Вс</value>
   </data>
