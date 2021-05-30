@@ -29,6 +29,7 @@ namespace SharedZone.DAL.Repositories
 		ServerLogRepository serverLogRepository;
 		LicenseRepository licenseRepository;
 		LicenseStatisticRepository licenseStatisticRepository;
+		SqlInjector sqlInjector;
 
 		public EFUnitOfWork(string connectionString)
 		{
@@ -225,6 +226,24 @@ namespace SharedZone.DAL.Repositories
 				return licenseStatisticRepository;
 			}
 		}
+
+
+
+		public ISqlInjector SqlInjector
+		{
+			get
+			{
+				if (sqlInjector == null)
+					sqlInjector = new SqlInjector(db);
+				return sqlInjector;
+			}
+		}
+
+		public void LazyLoadingEnabled(bool enabled)
+		{
+			db.Configuration.LazyLoadingEnabled = enabled;
+		}
+
 		private bool disposed = false;
 
 		public virtual void Dispose(bool disposing)

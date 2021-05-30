@@ -29,5 +29,8 @@ namespace SharedZone.DAL.Interfaces
 		IRepository<ServerLog> ServerLogs { get; }
 		IRepository<License> Licenses { get; }
 		IRepository<LicenseUsersStatistic> LicenseStatistics { get; }
+
+		ISqlInjector SqlInjector { get; }
+		void LazyLoadingEnabled(bool enabled);
 	}
 }

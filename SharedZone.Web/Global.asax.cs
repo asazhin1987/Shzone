@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
 using SharedZone.Web.Util;
+using Bimacad.Sys;
 
 namespace SharedZone.Web
 {
@@ -23,7 +25,17 @@ namespace SharedZone.Web
 
 			DependencyResolver.SetResolver(
 				new NinjectDependencyResolver(
-					new StandardKernel(new SharedZoneModule("localhost"))));
+					new StandardKernel(new SharedZoneModule(GetServerAddress()))));
+
+
+			string GetServerAddress()
+			{
+				string result = BTextWriter.ReadCurrentFile("host.txt");
+				if (result != "")
+					return result;
+				BTextWriter.WriteCurrentFile("localhost", "host.txt");
+				return GetServerAddress();
+			}
 		}
 	}
 }

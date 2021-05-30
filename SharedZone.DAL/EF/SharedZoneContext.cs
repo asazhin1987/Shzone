@@ -37,6 +37,8 @@ namespace SharedZone.DAL.EF
 
 		public SharedZoneContext(string connectionString) : base(connectionString)
 		{
+			//Configuration.LazyLoadingEnabled = false;
+			//Configuration.AutoDetectChangesEnabled = false;
 			Database.SetInitializer(new DbInitializer());
 		}
 

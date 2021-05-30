@@ -112,8 +112,7 @@ namespace SharedZone.BLL.Services
 			await db.RevitJobs.GetAll().Where(x => x.CollectionId == Id).LoadAsync();
 			await db.NavisJobs.GetAll().Where(x => x.CollectionId == Id).LoadAsync();
 			await db.IFCJobs.GetAll().Where(x => x.CollectionId == Id).LoadAsync();
-			//await db.Clients.GetAll().LoadAsync();
-			//var files = await GetFilesAsync(Id);
+
 			return Mapper.Map(new CollectionDTO()
 			{
 				HourValue = coll.Hour.HourValue,
@@ -179,16 +178,43 @@ namespace SharedZone.BLL.Services
 			var item = await db.Collections.GetAsync(collectionId);
 			if (item == null)
 				throw new FaultException<NotFound>(new NotFound());
-			item.RevitModels.Clear();
-			foreach (int fileId in files)
-			{
-				try
-				{
-					item.RevitModels.Add(await db.RevitModels.GetAsync(fileId));
-				}
-				catch { continue; }
-			}
-			await db.Collections.UpdateAsync(item);
+
+			await db.SqlInjector.ClearModelsAsync(collectionId);
+			if (files != null)
+				await db.SqlInjector.InsertModelsAsync(collectionId, files);
+
+			//await db.RevitModels.GetAll().Where(x => x.Collections.Select(s => s.Id).Contains(collectionId)).AsNoTracking().LoadAsync();
+
+			//item.RevitModels?.Clear();
+			//try
+			//{
+			//	await db.Collections.UpdateAsync(item);
+			//}
+			//catch (Exception ex)
+			//{
+
+			//}
+			//if (files != null)
+			//{
+			//	foreach (int fileId in files)
+			//	{
+			//		try
+			//		{
+			//			item.RevitModels.Add(await db.RevitModels.GetAsync(fileId));
+			//		}
+			//		catch { continue; }
+			//	}
+			//	try
+			//	{
+			//		await db.Collections.UpdateAsync(item);
+			//	}
+			//	catch (Exception ex)
+			//	{
+
+			//	}
+			//}
+
+
 		}
 
 
@@ -197,8 +223,9 @@ namespace SharedZone.BLL.Services
 			var item = await db.Collections.GetAsync(Id);
 			if (item == null)
 				throw new FaultException<NotFound>(new NotFound());
-			item.RevitModels.Clear();
-			await db.Collections.UpdateAsync(item);
+			await db.SqlInjector.ClearModelsAsync(Id);
+			//item.RevitModels.Clear();
+			//await db.Collections.UpdateAsync(item);
 		}
 		#endregion Collections
 
@@ -399,14 +426,17 @@ namespace SharedZone.BLL.Services
 					{
 						Id = f.Id, Name = f.Name, Path = f.Path
 					})
-				}).ToListAsync();
+				}).AsNoTracking().ToListAsync();
 		}
 
 		public async Task<IEnumerable<ServerDTO>> GetAllServersFullDataAsync(int collectionId)
 		{
-			var models = await db.RevitModels.GetAllAsync();
-			var servers = await db.RevitServers.GetAllAsync();
-			await db.RevitVersions.GetAll().LoadAsync();
+			await db.RevitVersions.GetAll().ToListAsync();
+			var models = await db.RevitModels.GetAll().AsNoTracking().ToListAsync();
+			var servers = await db.RevitServers.GetAll().AsNoTracking().ToListAsync();
+			//await db.RevitModels.GetAll().Where(x => x.Collections.Select(s => s.Id).Contains(collectionId)).LoadAsync();
+
+			
 
 			return servers.Select(x =>
 				   new ServerDTO()
@@ -414,7 +444,7 @@ namespace SharedZone.BLL.Services
 					   Id = x.Id,
 					   Name = x.Name,
 					   RevitVersionId = x.RevitVersionId,
-					   RevitVersionName = x.RevitVersion.Name,
+					   RevitVersionName = x.RevitVersion?.Name,
 					   IsDirectory = x.IsDirectory,
 					   Folders = GetFolders(x.Id, null),
 					   Files = GetFiles(x.Id, null)
@@ -442,7 +472,7 @@ namespace SharedZone.BLL.Services
 						   Id = x.Id,
 						   Name = x.Name,
 						   RevitServerId = x.RevitServerId,
-						   Checked = !x.IsFolder && x.Collections.Contains(collectionId)
+						   Checked = !x.IsFolder && x.Collections != null && x.Collections.Select(s=> s.Id).Contains(collectionId)
 					   });
 			}
 		}

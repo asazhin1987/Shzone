@@ -4,6 +4,7 @@ using SharedZone.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -105,7 +106,20 @@ namespace SharedZone.DAL.Repositories
 		public virtual async Task UpdateAsync(T item)
 		{
 			db.Entry(item).State = EntityState.Modified;
-			await db.SaveChangesAsync();
+			try
+			{
+				await db.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException ex)
+			{
+				ex.Entries.Single().Reload();
+				await db.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+
+			}
+			
 		}
 
 
