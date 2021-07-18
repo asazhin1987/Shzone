@@ -263,7 +263,7 @@ namespace SharedZone.BLL.Services
 			var lic = await db.Clients.GetAsync(Id);
 			if (lic != null)
 			{
-				//await db.Collections.GetAll().Where(x => x.ClientId == Id).LoadAsync();
+				await db.Collections.GetAll().Where(x => x.ClientId == Id).LoadAsync();
 				await db.Clients.DeleteAsync(lic);
 			}
 				
